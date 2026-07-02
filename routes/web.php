@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProgramaFormacionController;
+use App\Http\Controllers\FichaController;
+use App\Http\Controllers\AprendizController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -23,3 +25,13 @@ Route::middleware(['auth'])->group(function () {
     );
 
 });
+
+Route::resource(
+    'fichas',
+    FichaController::class
+);
+
+Route::resource(
+    'aprendices',
+    AprendizController::class
+);

@@ -332,6 +332,16 @@ return [
             'icon' => 'fas fa-graduation-cap',
         ],
         [
+            'text' => 'Fichas',
+            'url'  => 'fichas',
+            'icon' => 'fas fa-id-card',
+        ],
+        [
+            'text' => 'Aprendices',
+            'url'  => 'aprendices',
+            'icon' => 'fas fa-users',
+        ],
+        [
             'text' => 'pages',
             'url' => 'admin/pages',
             'icon' => 'far fa-fw fa-file',
