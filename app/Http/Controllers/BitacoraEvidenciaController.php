@@ -13,24 +13,54 @@ class BitacoraEvidenciaController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+public function index(Request $request)
 {
-    $bitacoras = BitacoraEvidencia::with([
+    $buscar = $request->buscar;
 
-        'aprendiz',
-        'seguimiento',
-        'estado'
+    $aprendices = Aprendiz::with([
+
+        'ficha.programa',
+
+        'bitacoras.estado'
 
     ])
+
+    ->when($buscar, function ($query) use ($buscar) {
+
+        $query->where(function ($q) use ($buscar) {
+
+            $q->where(
+                'nombres',
+                'like',
+                "%{$buscar}%"
+            )
+
+            ->orWhere(
+                'apellidos',
+                'like',
+                "%{$buscar}%"
+            )
+
+            ->orWhere(
+                'documento_identidad',
+                'like',
+                "%{$buscar}%"
+            );
+        });
+    })
+
     ->latest()
+
     ->paginate(10);
 
     return view(
         'bitacoras.index',
-        compact('bitacoras')
+        compact(
+            'aprendices',
+            'buscar'
+        )
     );
 }
-
     /**
      * Show the form for creating a new resource.
      */

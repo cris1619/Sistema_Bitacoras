@@ -120,26 +120,25 @@ class FichaController extends Controller
      */
 public function destroy(Ficha $ficha)
 {
-    try {
-
-        $ficha->delete();
-
-        return redirect()
-            ->route('fichas.index')
-            ->with(
-                'success',
-                'Ficha eliminada correctamente'
-            );
-
-    } catch (Throwable $e) {
+    if (
+        $ficha->aprendices()->count() > 0
+    ) {
 
         return redirect()
             ->route('fichas.index')
             ->with(
                 'error',
-
-                'No se puede eliminar la ficha porque tiene registros asociados.'
+                'No se puede eliminar la ficha porque tiene aprendices asociados.'
             );
     }
+
+    $ficha->delete();
+
+    return redirect()
+        ->route('fichas.index')
+        ->with(
+            'success',
+            'Ficha eliminada correctamente'
+        );
 }
 }

@@ -162,14 +162,28 @@ class SeguimientoController extends Controller
      * Remove the specified resource from storage.
      */
     public function destroy(Seguimiento $seguimiento)
-    {
-        $seguimiento->delete();
+{
+    if (
+        $seguimiento->fecha_realizada
+        ||
+        $seguimiento->archivo_adjunto
+    ) {
 
         return redirect()
             ->route('seguimientos.index')
             ->with(
-                'success',
-                'Seguimiento eliminado correctamente'
+                'error',
+                'No se puede eliminar el seguimiento porque ya tiene información registrada.'
             );
     }
+
+    $seguimiento->delete();
+
+    return redirect()
+        ->route('seguimientos.index')
+        ->with(
+            'success',
+            'Seguimiento eliminado correctamente.'
+        );
+}
 }

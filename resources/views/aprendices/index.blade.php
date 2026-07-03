@@ -20,16 +20,7 @@
 @stop
 
 @section('content')
-
-@if(session('success'))
-
-<div class="alert alert-success">
-
-    {{ session('success') }}
-
-</div>
-
-@endif
+@include('partials.alerts')
 
 <div class="card">
 
@@ -109,18 +100,41 @@
                         <form
                             action="{{ route('aprendices.destroy', $aprendiz) }}"
                             method="POST"
-                            class="d-inline"
-                            onclick="return confirm('¿Seguro de eliminar este registro?')">
+                            class="d-inline">
 
                             @csrf
                             @method('DELETE')
 
                             <button
-                                class="btn btn-danger btn-sm">
+                            type="button"
+                            class="btn btn-danger btn-sm"
 
-                                Eliminar
+                            data-toggle="modal"
+                            data-target="#modalEliminar{{ $aprendiz->id }}">
 
-                            </button>
+                            Eliminar
+
+                        </button>
+
+                        @include(
+                            'partials.modal-delete',
+
+                            [
+
+                                'modalId' =>
+                                    'modalEliminar' . $aprendiz->id,
+
+                                'route' =>
+                                    route(
+                                        'aprendices.destroy',
+                                        $aprendiz
+                                    ),
+
+                                'message' =>
+                                    '¿Seguro que deseas eliminar este aprendiz?'
+
+                            ]
+                        )
 
                         </form>
 

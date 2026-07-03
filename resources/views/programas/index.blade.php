@@ -4,32 +4,24 @@
 
 @section('content_header')
 
-    <div class="d-flex justify-content-between">
+<div class="d-flex justify-content-between">
 
-        <h1>Programas de Formación</h1>
+    <h1>Programas de Formación</h1>
 
-        <a href="{{ route('programas.create') }}"
-           class="btn btn-primary">
+    <a href="{{ route('programas.create') }}"
+       class="btn btn-primary">
 
-            Nuevo Programa
+        Nuevo Programa
 
-        </a>
+    </a>
 
-    </div>
+</div>
 
 @stop
 
 @section('content')
 
-@if(session('success'))
-
-    <div class="alert alert-success">
-
-        {{ session('success') }}
-
-    </div>
-
-@endif
+@include('partials.alerts')
 
 <div class="card">
 
@@ -49,7 +41,11 @@
 
                     <th>Nivel</th>
 
-                    <th width="180">Acciones</th>
+                    <th width="180">
+
+                        Acciones
+
+                    </th>
 
                 </tr>
 
@@ -59,58 +55,87 @@
 
                 @forelse($programas as $programa)
 
-                    <tr>
+                <tr>
 
-                        <td>{{ $programa->id }}</td>
+                    <td>
 
-                        <td>{{ $programa->codigo_programa }}</td>
+                        {{ $programa->id }}
 
-                        <td>{{ $programa->nombre_programa }}</td>
+                    </td>
 
-                        <td>{{ $programa->nivel_formacion }}</td>
+                    <td>
 
-                        <td>
+                        {{ $programa->codigo_programa }}
 
-                            <a href="{{ route('programas.edit', $programa) }}"
-                               class="btn btn-warning btn-sm">
+                    </td>
 
-                                Editar
+                    <td>
 
-                            </a>
+                        {{ $programa->nombre_programa }}
 
-                            <form
-                                action="{{ route('programas.destroy', $programa) }}"
-                                method="POST"
-                                class="d-inline">
+                    </td>
 
-                                @csrf
-                                @method('DELETE')
+                    <td>
 
-                                <button
-                                    type="submit"
-                                    class="btn btn-danger btn-sm">
+                        {{ $programa->nivel_formacion }}
 
-                                    Eliminar
+                    </td>
 
-                                </button>
+                    <td>
 
-                            </form>
+                        <a href="{{ route('programas.edit', $programa) }}"
+                           class="btn btn-warning btn-sm">
 
-                        </td>
+                            Editar
 
-                    </tr>
+                        </a>
+
+                        <button
+                            type="button"
+                            class="btn btn-danger btn-sm"
+
+                            data-toggle="modal"
+                            data-target="#modalEliminar{{ $programa->id }}">
+
+                            Eliminar
+
+                        </button>
+
+                        @include(
+                            'partials.modal-delete',
+
+                            [
+
+                                'modalId' =>
+                                    'modalEliminar' . $programa->id,
+
+                                'route' =>
+                                    route(
+                                        'programas.destroy',
+                                        $programa
+                                    ),
+
+                                'message' =>
+                                    '¿Seguro que deseas eliminar este programa?'
+
+                            ]
+                        )
+
+                    </td>
+
+                </tr>
 
                 @empty
 
-                    <tr>
+                <tr>
 
-                        <td colspan="5">
+                    <td colspan="5">
 
-                            No hay programas registrados
+                        No hay programas registrados
 
-                        </td>
+                    </td>
 
-                    </tr>
+                </tr>
 
                 @endforelse
 

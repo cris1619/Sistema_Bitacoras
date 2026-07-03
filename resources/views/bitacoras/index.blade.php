@@ -4,155 +4,275 @@
 
 @section('content_header')
 
-<div class="d-flex justify-content-between">
+<h1>
 
-    <h1>Bitácoras</h1>
+    Gestión de Bitácoras
 
-    <a href="{{ route('bitacoras.create') }}"
-       class="btn btn-primary">
-
-        Nueva Bitácora
-
-    </a>
-
-</div>
+</h1>
 
 @stop
 
 @section('content')
 
-@if(session('success'))
-
-<div class="alert alert-success">
-
-    {{ session('success') }}
-
-</div>
-
-@endif
+@include('partials.alerts')
 
 <div class="card">
 
     <div class="card-body">
 
-        <table class="table table-bordered table-hover">
+        <input
+            type="text"
+            id="buscadorAprendiz"
+            class="form-control"
 
-            <thead class="table-dark">
+            placeholder="Buscar aprendiz por nombre, apellido o documento">
 
-                <tr>
+    </div>
 
-                    <th>#</th>
+</div>
 
-                    <th>Aprendiz</th>
+<div class="accordion" id="accordionBitacoras">
 
-                    <th>Estado</th>
+@foreach($aprendices as $aprendiz)
 
-                    <th>Entrega</th>
+<div class="card aprendiz-card">
 
-                    <th width="220">
+    <div
+        class="card-header"
 
-                        Acciones
+        data-search="
+        {{ strtolower($aprendiz->nombres) }}
+        {{ strtolower($aprendiz->apellidos) }}
+        {{ strtolower($aprendiz->documento_identidad) }}
+        ">
 
-                    </th>
+        <div class="d-flex justify-content-between align-items-center">
 
-                </tr>
+            <div>
 
-            </thead>
+                <strong>
 
-            <tbody>
+                    {{ $aprendiz->nombres }}
+                    {{ $aprendiz->apellidos }}
 
-                @forelse($bitacoras as $bitacora)
+                </strong>
 
-                <tr>
+                <br>
 
-                    <td>
+                <small>
 
-                        {{ $bitacora->numero_bitacora }}
+                    Documento:
+                    {{ $aprendiz->documento_identidad }}
 
-                    </td>
+                    |
 
-                    <td>
+                    Ficha:
+                    {{ $aprendiz->ficha->numero_ficha }}
 
-                        {{ $bitacora->aprendiz->nombres }}
-                        {{ $bitacora->aprendiz->apellidos }}
+                    -
 
-                    </td>
+                    {{ $aprendiz->ficha->programa->nombre_programa }}
 
-                    <td>
+                </small>
 
-                        {{ $bitacora->estado->nombre_estado }}
+            </div>
 
-                    </td>
+            <button
+                class="btn btn-primary"
 
-                    <td>
+                type="button"
 
-                        {{ $bitacora->fecha_limite_entrega }}
+                data-toggle="collapse"
 
-                    </td>
+                data-target="#collapse{{ $aprendiz->id }}">
 
-                    <td>
+                Ver Bitácoras
 
-                        <a href="{{ route('bitacoras.show', $bitacora) }}"
-                           class="btn btn-info btn-sm">
+            </button>
 
-                            Ver
+        </div>
 
-                        </a>
+    </div>
 
-                        <a href="{{ route('bitacoras.edit', $bitacora) }}"
-                           class="btn btn-warning btn-sm">
+    <div
+        id="collapse{{ $aprendiz->id }}"
+        class="collapse"
 
-                            Editar
+        data-parent="#accordionBitacoras">
 
-                        </a>
+        <div class="card-body">
 
-                        <form
-                            action="{{ route('bitacoras.destroy', $bitacora) }}"
-                            method="POST"
-                            class="d-inline">
+            <table class="table table-bordered table-hover">
 
-                            @csrf
-                            @method('DELETE')
+                <thead class="table-dark">
 
-                            <button
-                                class="btn btn-danger btn-sm">
+                    <tr>
 
-                                Eliminar
+                        <th>#</th>
 
-                            </button>
+                        <th>Estado</th>
 
-                        </form>
+                        <th>Fecha límite</th>
 
-                    </td>
+                        <th>Archivo</th>
 
-                </tr>
+                        <th width="180">
 
-                @empty
+                            Acciones
 
-                <tr>
+                        </th>
 
-                    <td colspan="5">
+                    </tr>
 
-                        No hay bitácoras registradas
+                </thead>
 
-                    </td>
+                <tbody>
 
-                </tr>
+                    @foreach($aprendiz->bitacoras as $bitacora)
 
-                @endforelse
+                    <tr>
 
-            </tbody>
+                        <td>
 
-        </table>
+                            Bitácora
+                            {{ $bitacora->numero_bitacora }}
 
-        <div class="mt-3">
+                        </td>
 
-            {{ $bitacoras->links() }}
+                        <td>
+
+                            {{ $bitacora->estado->nombre_estado }}
+
+                        </td>
+
+                        <td>
+
+                            {{ $bitacora->fecha_limite_entrega }}
+
+                        </td>
+
+                        <td>
+
+                            @if($bitacora->archivo_evidencia_url)
+
+                            <a href="{{ asset('storage/' . $bitacora->archivo_evidencia_url) }}"
+                               target="_blank">
+
+                                Ver archivo
+
+                            </a>
+
+                            @else
+
+                            <span class="text-muted">
+
+                                Sin archivo
+
+                            </span>
+
+                            @endif
+
+                        </td>
+
+                        <td>
+
+                            <a href="{{ route('bitacoras.show', $bitacora) }}"
+                               class="btn btn-info btn-sm">
+
+                                Ver
+
+                            </a>
+
+                            <a href="{{ route('bitacoras.edit', $bitacora) }}"
+                               class="btn btn-warning btn-sm">
+
+                                Editar
+
+                            </a>
+
+                        </td>
+
+                    </tr>
+
+                    @endforeach
+
+                </tbody>
+
+            </table>
 
         </div>
 
     </div>
 
 </div>
+
+@endforeach
+
+</div>
+
+<div class="mt-3">
+
+    {{ $aprendices->links() }}
+
+</div>
+
+@stop
+
+@section('js')
+
+<script>
+
+document.addEventListener(
+
+    'DOMContentLoaded',
+
+    function () {
+
+        const buscador = document.getElementById(
+            'buscadorAprendiz'
+        );
+
+        buscador.addEventListener(
+
+            'keyup',
+
+            function () {
+
+                let valor =
+                    this.value.toLowerCase();
+
+                let cards =
+                    document.querySelectorAll(
+                        '.aprendiz-card'
+                    );
+
+                cards.forEach(card => {
+
+                    let texto =
+                        card.querySelector(
+                            '.card-header'
+                        )
+                        .dataset
+                        .search;
+
+                    if (
+                        texto.includes(valor)
+                    ) {
+
+                        card.style.display =
+                            '';
+
+                    } else {
+
+                        card.style.display =
+                            'none';
+                    }
+                });
+            }
+        );
+    }
+);
+
+</script>
 
 @stop

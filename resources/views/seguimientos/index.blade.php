@@ -21,15 +21,7 @@
 
 @section('content')
 
-@if(session('success'))
-
-<div class="alert alert-success">
-
-    {{ session('success') }}
-
-</div>
-
-@endif
+@include('partials.alerts')
 
 <div class="card">
 
@@ -51,7 +43,7 @@
 
                     <th>Fecha</th>
 
-                    <th width="200">
+                    <th width="220">
 
                         Acciones
 
@@ -68,24 +60,35 @@
                 <tr>
 
                     <td>
+
                         {{ $seguimiento->numero_seguimiento }}
+
                     </td>
 
                     <td>
+
                         {{ $seguimiento->aprendiz->nombres }}
+
                         {{ $seguimiento->aprendiz->apellidos }}
+
                     </td>
 
                     <td>
+
                         {{ $seguimiento->instructor->nombre_completo }}
+
                     </td>
 
                     <td>
+
                         {{ $seguimiento->estado->nombre_estado }}
+
                     </td>
 
                     <td>
+
                         {{ $seguimiento->fecha_programada }}
+
                     </td>
 
                     <td>
@@ -104,22 +107,36 @@
 
                         </a>
 
-                        <form
-                            action="{{ route('seguimientos.destroy', $seguimiento) }}"
-                            method="POST"
-                            class="d-inline">
+                        <button
+                            type="button"
+                            class="btn btn-danger btn-sm"
 
-                            @csrf
-                            @method('DELETE')
+                            data-toggle="modal"
+                            data-target="#modalEliminar{{ $seguimiento->id }}">
 
-                            <button
-                                class="btn btn-danger btn-sm">
+                            Eliminar
 
-                                Eliminar
+                        </button>
 
-                            </button>
+                        @include(
+                            'partials.modal-delete',
 
-                        </form>
+                            [
+
+                                'modalId' =>
+                                    'modalEliminar' . $seguimiento->id,
+
+                                'route' =>
+                                    route(
+                                        'seguimientos.destroy',
+                                        $seguimiento
+                                    ),
+
+                                'message' =>
+                                    '¿Seguro que deseas eliminar este seguimiento?'
+
+                            ]
+                        )
 
                     </td>
 

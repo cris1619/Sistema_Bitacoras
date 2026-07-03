@@ -104,14 +104,26 @@ class ProgramaFormacionController extends Controller
      * Remove the specified resource from storage.
      */
     public function destroy(ProgramaFormacion $programa)
-    {
-        $programa->delete();
+{
+    if (
+        $programa->fichas()->count() > 0
+    ) {
 
         return redirect()
             ->route('programas.index')
             ->with(
-                'success',
-                'Programa eliminado correctamente'
+                'error',
+                'No se puede eliminar el programa porque tiene fichas asociadas.'
             );
     }
+
+    $programa->delete();
+
+    return redirect()
+        ->route('programas.index')
+        ->with(
+            'success',
+            'Programa eliminado correctamente'
+        );
+}
 }

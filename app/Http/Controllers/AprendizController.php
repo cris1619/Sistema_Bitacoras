@@ -477,16 +477,29 @@ $progreso = $totalBitacoras > 0
 
     /**
      * Remove the specified resource from storage.
-     */
-    public function destroy(Aprendiz $aprendice)
-    {
-        $aprendice->delete();
+     */public function destroy(Aprendiz $aprendice)
+{
+    if (
+        $aprendice->seguimientos()->count() > 0
+        ||
+        $aprendice->bitacoras()->count() > 0
+    ) {
 
         return redirect()
             ->route('aprendices.index')
             ->with(
-                'success',
-                'Aprendiz eliminado correctamente'
+                'error',
+                'No se puede eliminar el aprendiz porque tiene seguimientos o bitácoras asociadas.'
             );
     }
+
+    $aprendice->delete();
+
+    return redirect()
+        ->route('aprendices.index')
+        ->with(
+            'success',
+            'Aprendiz eliminado correctamente'
+        );
+}
 }
