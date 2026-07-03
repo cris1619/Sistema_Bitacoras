@@ -3,90 +3,185 @@
 @section('title', 'Dashboard')
 
 @section('content_header')
-    <h1>Panel Principal</h1>
+
+<h1>
+
+    Dashboard Administrativo
+
+</h1>
+
 @stop
 
 @section('content')
 
 <div class="row">
 
-    <div class="col-lg-3 col-6">
+    <!-- APRENDICES -->
 
-        <div class="small-box bg-info">
+    <div class="col-md-3">
+
+        <div class="small-box bg-primary">
 
             <div class="inner">
 
-                <h3>0</h3>
+                <h3>
 
-                <p>Aprendices</p>
+                    {{ $totalAprendices }}
+
+                </h3>
+
+                <p>
+
+                    Aprendices
+
+                </p>
 
             </div>
 
             <div class="icon">
+
                 <i class="fas fa-users"></i>
+
             </div>
 
         </div>
 
     </div>
 
-    <div class="col-lg-3 col-6">
+    <!-- BITACORAS -->
+
+    <div class="col-md-3">
 
         <div class="small-box bg-success">
 
             <div class="inner">
 
-                <h3>0</h3>
+                <h3>
 
-                <p>Seguimientos</p>
+                    {{ $totalBitacoras }}
+
+                </h3>
+
+                <p>
+
+                    Bitácoras
+
+                </p>
 
             </div>
 
             <div class="icon">
-                <i class="fas fa-clipboard-check"></i>
+
+                <i class="fas fa-book"></i>
+
             </div>
 
         </div>
 
     </div>
 
-    <div class="col-lg-3 col-6">
+    <!-- PENDIENTES -->
+
+    <div class="col-md-3">
 
         <div class="small-box bg-warning">
 
             <div class="inner">
 
-                <h3>0</h3>
+                <h3>
 
-                <p>Bitácoras</p>
+                    {{ $pendientes }}
+
+                </h3>
+
+                <p>
+
+                    Pendientes
+
+                </p>
 
             </div>
 
             <div class="icon">
-                <i class="fas fa-book"></i>
+
+                <i class="fas fa-clock"></i>
+
             </div>
 
         </div>
 
     </div>
 
-    <div class="col-lg-3 col-6">
+    <!-- SEGUIMIENTOS -->
+
+    <div class="col-md-3">
 
         <div class="small-box bg-danger">
 
             <div class="inner">
 
-                <h3>0</h3>
+                <h3>
 
-                <p>Usuarios</p>
+                    {{ $seguimientos }}
+
+                </h3>
+
+                <p>
+
+                    Seguimientos
+
+                </p>
 
             </div>
 
             <div class="icon">
-                <i class="fas fa-user-shield"></i>
+
+                <i class="fas fa-clipboard-check"></i>
+
             </div>
 
         </div>
+
+    </div>
+
+</div>
+
+<!-- TABLA RECIENTES -->
+
+<div class="card">
+
+    <div class="card-header">
+
+        <h3 class="card-title">
+
+            Accesos rápidos
+
+        </h3>
+
+    </div>
+
+    <div class="card-body">
+
+        <a href="{{ route('aprendices.index') }}"
+           class="btn btn-primary">
+
+            Aprendices
+
+        </a>
+
+        <a href="{{ route('seguimientos.index') }}"
+           class="btn btn-success">
+
+            Seguimientos
+
+        </a>
+
+        <a href="{{ route('bitacoras.index') }}"
+           class="btn btn-warning">
+
+            Bitácoras
+
+        </a>
 
     </div>
 

@@ -332,6 +332,79 @@ public function show(Aprendiz $aprendice)
     );
 }
 
+public function dashboard(Aprendiz $aprendice)
+{
+    $bitacoras = BitacoraEvidencia::where(
+
+        'aprendiz_id',
+        $aprendice->id
+
+    )
+    ->orderBy('numero_bitacora')
+    ->get();
+
+    $seguimientos = Seguimiento::where(
+
+        'aprendiz_id',
+        $aprendice->id
+
+    )
+    ->orderBy('numero_seguimiento')
+    ->get();
+
+    $totalBitacoras = $bitacoras->count();
+
+$entregadas = $bitacoras->where(
+
+    'estado.nombre_estado',
+    'Entregada'
+
+)->count();
+
+$pendientes = $bitacoras->where(
+
+    'estado.nombre_estado',
+    'Pendiente'
+
+)->count();
+
+$vencidas = $bitacoras->filter(function ($bitacora) {
+
+    return
+
+        $bitacora->fecha_limite_entrega < now()
+
+        &&
+
+        $bitacora->estado->nombre_estado !=
+            'Entregada';
+
+})->count();
+
+$progreso = $totalBitacoras > 0
+
+    ? round(
+        ($entregadas / $totalBitacoras) * 100
+    )
+
+    : 0;
+
+    return view(
+
+        'aprendices.dashboard',
+
+        compact(
+            'aprendice',
+            'bitacoras',
+            'seguimientos',
+            'totalBitacoras',
+            'entregadas',
+            'pendientes',
+            'vencidas',
+            'progreso'
+        )
+    );
+}
     /**
      * Show the form for editing the specified resource.
      */

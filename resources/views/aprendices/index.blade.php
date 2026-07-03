@@ -92,6 +92,13 @@
 
                         </a>
 
+                        <a href="{{ route('aprendices.dashboard', $aprendiz) }}"
+                        class="btn btn-dark btn-sm">
+
+                            Dashboard
+
+                        </a>
+
                         <a href="{{ route('aprendices.edit', $aprendiz) }}"
                            class="btn btn-warning btn-sm">
 

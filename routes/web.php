@@ -13,9 +13,43 @@ Route::get('/', function () {
 
 Route::get('/dashboard', function () {
 
-    return view('dashboard');
+    $totalAprendices =
+        \App\Models\Aprendiz::count();
 
-})->middleware(['auth'])->name('dashboard');
+    $totalBitacoras =
+        \App\Models\BitacoraEvidencia::count();
+
+    $pendientes =
+        \App\Models\BitacoraEvidencia::whereHas(
+
+            'estado',
+
+            function ($q) {
+
+                $q->where(
+                    'nombre_estado',
+                    'Pendiente'
+                );
+            }
+
+        )->count();
+
+    $seguimientos =
+        \App\Models\Seguimiento::count();
+
+    return view(
+
+        'dashboard',
+
+        compact(
+            'totalAprendices',
+            'totalBitacoras',
+            'pendientes',
+            'seguimientos'
+        )
+    );
+
+})->middleware('auth');
 
 require __DIR__.'/auth.php';
 
@@ -48,3 +82,10 @@ Route::resource(
     BitacoraEvidenciaController::class
 );
 
+Route::get(
+
+    'aprendices/{aprendice}/dashboard',
+
+    [AprendizController::class, 'dashboard']
+
+)->name('aprendices.dashboard');
