@@ -16,64 +16,32 @@ class Seguimiento extends Model
         'aprendiz_id',
         'instructor_id',
         'estado_id',
-
         'numero_seguimiento',
-
         'fecha_programada',
         'fecha_realizada',
-
         'observaciones',
         'compromisos',
         'recomendaciones',
-
-        'archivo_adjunto'
+        'archivo_adjunto',
     ];
 
-    // ===================================
-    // RELACIÓN APRENDIZ
-    // ===================================
+    // RELACIONES
 
     public function aprendiz()
     {
-        return $this->belongsTo(
-            Aprendiz::class,
-            'aprendiz_id'
-        );
+        return $this->belongsTo(Aprendiz::class);
     }
-
-    // ===================================
-    // RELACIÓN INSTRUCTOR
-    // ===================================
 
     public function instructor()
     {
-        return $this->belongsTo(
-            User::class,
-            'instructor_id'
-        );
+        return $this->belongsTo(User::class, 'instructor_id');
     }
-
-    // ===================================
-    // RELACIÓN ESTADO
-    // ===================================
 
     public function estado()
     {
         return $this->belongsTo(
             EstadoSeguimiento::class,
             'estado_id'
-        );
-    }
-
-    // ===================================
-    // RELACIÓN BITÁCORAS
-    // ===================================
-
-    public function bitacoras()
-    {
-        return $this->hasMany(
-            BitacoraEvidencia::class,
-            'seguimiento_id'
         );
     }
 }

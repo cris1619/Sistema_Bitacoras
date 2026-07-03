@@ -11,13 +11,4 @@ class EstadoSeguimiento extends Model
     protected $fillable = [
         'nombre_estado'
     ];
-
-    // ==============================
-    // RELACIÓN SEGUIMIENTOS
-    // ==============================
-
-    public function seguimientos()
-    {
-        return $this->hasMany(Seguimiento::class, 'estado_id');
-    }
 }

@@ -16,44 +16,24 @@ class BitacoraEvidencia extends Model
         'aprendiz_id',
         'seguimiento_id',
         'estado_id',
-
         'numero_bitacora',
-
         'fecha_limite_entrega',
         'fecha_entrega',
-
         'archivo_evidencia_url',
-
-        'novedades'
+        'novedades',
     ];
 
-    // ===================================
-    // RELACIÓN APRENDIZ
-    // ===================================
+    // RELACIONES
 
     public function aprendiz()
     {
-        return $this->belongsTo(
-            Aprendiz::class,
-            'aprendiz_id'
-        );
+        return $this->belongsTo(Aprendiz::class);
     }
-
-    // ===================================
-    // RELACIÓN SEGUIMIENTO
-    // ===================================
 
     public function seguimiento()
     {
-        return $this->belongsTo(
-            Seguimiento::class,
-            'seguimiento_id'
-        );
+        return $this->belongsTo(Seguimiento::class);
     }
-
-    // ===================================
-    // RELACIÓN ESTADO
-    // ===================================
 
     public function estado()
     {

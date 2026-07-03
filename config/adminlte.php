@@ -342,6 +342,50 @@ return [
             'icon' => 'fas fa-users',
         ],
         [
+            'text' => 'Seguimientos',
+            'url'  => 'seguimientos',
+            'icon' => 'fas fa-clipboard-list',
+        ],
+        [
+            'text' => 'Instructores',
+            'url'  => 'instructores',
+            'icon' => 'fas fa-chalkboard-teacher',
+        ],
+        [
+            'text' => 'Usuarios',
+            'url'  => 'usuarios',
+            'icon' => 'fas fa-user',
+        ],
+
+        ['header' => 'account_settings'],
+        [
+            'text' => 'profile',
+            'url'  => '#',
+            'icon' => 'fas fa-fw fa-user',
+        ],
+        [
+            'text' => 'change_password',
+            'url'  => '#',
+            'icon' => 'fas fa-fw fa-lock',
+        ],
+
+        ['header' => 'labels'],
+        [
+            'text'       => 'important',
+            'icon_color' => 'red',
+            'url'        => '#',
+        ],
+        [
+            'text'       => 'warning',
+            'icon_color' => 'yellow',
+            'url'        => '#',
+        ],
+        [
+            'text'       => 'information',
+            'icon_color' => 'cyan',
+            'url'        => '#',
+        ],
+        [
             'text' => 'pages',
             'url' => 'admin/pages',
             'icon' => 'far fa-fw fa-file',

@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProgramaFormacionController;
 use App\Http\Controllers\FichaController;
 use App\Http\Controllers\AprendizController;
+use App\Http\Controllers\SeguimientoController;
+use App\Http\Controllers\BitacoraEvidenciaController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -35,3 +37,14 @@ Route::resource(
     'aprendices',
     AprendizController::class
 );
+
+Route::resource(
+    'seguimientos',
+    SeguimientoController::class
+);
+
+Route::resource(
+    'bitacoras',
+    BitacoraEvidenciaController::class
+);
+

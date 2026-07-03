@@ -11,16 +11,4 @@ class EstadoBitacora extends Model
     protected $fillable = [
         'nombre_estado'
     ];
-
-    // ==============================
-    // RELACIÓN BITÁCORAS
-    // ==============================
-
-    public function bitacoras()
-    {
-        return $this->hasMany(
-            BitacoraEvidencia::class,
-            'estado_id'
-        );
-    }
 }
