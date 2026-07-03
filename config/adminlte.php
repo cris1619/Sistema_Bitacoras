@@ -347,6 +347,26 @@ return [
             'icon' => 'fas fa-clipboard-list',
         ],
         [
+            'text' => 'Bitácoras',
+            'url'  => 'bitacoras',
+            'icon' => 'fas fa-book',
+        ],
+        [
+            'text' => 'Estados de bitácora',
+            'url'  => 'estados-bitacora',
+            'icon' => 'fas fa-tasks',
+        ],
+        [
+            'text' => 'Estados de aprendiz',
+            'url'  => 'estados-aprendiz',
+            'icon' => 'fas fa-user-check',
+        ],
+        [
+            'text' => 'Vínculos formativos',
+            'url'  => 'vinculos-formativos',
+            'icon' => 'fas fa-handshake',
+        ],
+        [
             'text' => 'Instructores',
             'url'  => 'instructores',
             'icon' => 'fas fa-chalkboard-teacher',

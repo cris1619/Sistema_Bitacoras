@@ -7,6 +7,12 @@ use App\Models\Ficha;
 use App\Models\EstadoAprendiz;
 use App\Models\VinculoFormativo;
 use Illuminate\Http\Request;
+use App\Models\BitacoraEvidencia;
+use App\Models\EstadoBitacora;
+use Carbon\Carbon;
+use App\Models\Seguimiento;
+use App\Models\EstadoSeguimiento;
+use App\Models\User;
 
 class AprendizController extends Controller
 {
@@ -85,7 +91,221 @@ class AprendizController extends Controller
             'required|max:20',
     ]);
 
-    Aprendiz::create($request->all());
+    $aprendiz = Aprendiz::create($request->all());
+
+$estadoPendiente = EstadoBitacora::where(
+
+    'nombre_estado',
+    'Pendiente'
+
+)->first();
+
+$inicio = Carbon::parse(
+    $aprendiz->fecha_inicio_practica
+);
+
+$finPractica = Carbon::parse(
+    $aprendiz->fecha_fin_practica
+);
+
+for ($i = 1; $i <= 12; $i++) {
+
+    // INICIO BITÁCORA
+
+    $inicioBitacora = $inicio->copy();
+
+    // FIN BITÁCORA
+
+    if ($inicioBitacora->day <= 15) {
+
+        $finBitacora =
+            $inicioBitacora
+                ->copy()
+                ->day(15);
+
+    } else {
+
+        $finBitacora =
+            $inicioBitacora
+                ->copy()
+                ->endOfMonth();
+    }
+
+    // AJUSTAR ÚLTIMA
+
+    if ($finBitacora->gt($finPractica)) {
+
+        $finBitacora =
+            $finPractica->copy();
+    }
+
+    BitacoraEvidencia::create([
+
+        'aprendiz_id' => $aprendiz->id,
+
+        'seguimiento_id' => null,
+
+        'estado_id' => $estadoPendiente->id,
+
+        'numero_bitacora' => $i,
+
+        'fecha_limite_entrega' =>
+            $finBitacora,
+
+        'fecha_entrega' => null,
+
+        'archivo_evidencia_url' => null,
+
+        'novedades' =>
+
+            'Periodo: ' .
+
+            $inicioBitacora->format('d/m/Y')
+
+            . ' al ' .
+
+            $finBitacora->format('d/m/Y'),
+    ]);
+
+    // SIGUIENTE QUINCENA
+
+    $inicio = $finBitacora
+        ->copy()
+        ->addDay();
+}
+
+$estadoSeguimiento = EstadoSeguimiento::where(
+
+    'nombre_estado',
+    'Pendiente'
+
+)->first();
+
+/*
+|--------------------------------------------------------------------------
+| FECHAS PROGRAMADAS
+|--------------------------------------------------------------------------
+*/
+
+$bitacora6 = BitacoraEvidencia::where(
+
+    'aprendiz_id',
+    $aprendiz->id
+
+)->where(
+    'numero_bitacora',
+    6
+)->first();
+
+$bitacora11 = BitacoraEvidencia::where(
+
+    'aprendiz_id',
+    $aprendiz->id
+
+)->where(
+    'numero_bitacora',
+    11
+)->first();
+
+$bitacora12 = BitacoraEvidencia::where(
+
+    'aprendiz_id',
+    $aprendiz->id
+
+)->where(
+    'numero_bitacora',
+    12
+)->first();
+
+/*
+|--------------------------------------------------------------------------
+| SEGUIMIENTO 1
+|--------------------------------------------------------------------------
+*/
+
+Seguimiento::create([
+
+    'aprendiz_id' => $aprendiz->id,
+
+    'instructor_id' => 1,
+
+    'estado_id' => $estadoSeguimiento->id,
+
+    'numero_seguimiento' => 1,
+
+    'fecha_programada' =>
+        $bitacora6->fecha_limite_entrega,
+
+    'fecha_realizada' => null,
+
+    'observaciones' => null,
+
+    'compromisos' => null,
+
+    'recomendaciones' => null,
+
+    'archivo_adjunto' => null,
+]);
+
+/*
+|--------------------------------------------------------------------------
+| SEGUIMIENTO 2
+|--------------------------------------------------------------------------
+*/
+
+Seguimiento::create([
+
+    'aprendiz_id' => $aprendiz->id,
+
+    'instructor_id' => 1,
+
+    'estado_id' => $estadoSeguimiento->id,
+
+    'numero_seguimiento' => 2,
+
+    'fecha_programada' =>
+        $bitacora11->fecha_limite_entrega,
+
+    'fecha_realizada' => null,
+
+    'observaciones' => null,
+
+    'compromisos' => null,
+
+    'recomendaciones' => null,
+
+    'archivo_adjunto' => null,
+]);
+
+/*
+|--------------------------------------------------------------------------
+| SEGUIMIENTO FINAL
+|--------------------------------------------------------------------------
+*/
+
+Seguimiento::create([
+
+    'aprendiz_id' => $aprendiz->id,
+
+    'instructor_id' => 1,
+
+    'estado_id' => $estadoSeguimiento->id,
+
+    'numero_seguimiento' => 3,
+
+    'fecha_programada' =>
+        $bitacora12->fecha_limite_entrega,
+
+    'fecha_realizada' => null,
+
+    'observaciones' => null,
+
+    'compromisos' => null,
+
+    'recomendaciones' => null,
+
+    'archivo_adjunto' => null,
+]);
 
     return redirect()
         ->route('aprendices.index')
