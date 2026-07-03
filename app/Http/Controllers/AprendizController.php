@@ -479,14 +479,14 @@ $progreso = $totalBitacoras > 0
      * Remove the specified resource from storage.
      */
     public function destroy(Aprendiz $aprendice)
-{
-    $aprendice->delete();
+    {
+        $aprendice->delete();
 
-    return redirect()
-        ->route('aprendices.index')
-        ->with(
-            'success',
-            'Aprendiz eliminado correctamente'
-        );
-}
+        return redirect()
+            ->route('aprendices.index')
+            ->with(
+                'success',
+                'Aprendiz eliminado correctamente'
+            );
+    }
 }

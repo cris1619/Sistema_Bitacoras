@@ -109,7 +109,8 @@
                         <form
                             action="{{ route('aprendices.destroy', $aprendiz) }}"
                             method="POST"
-                            class="d-inline">
+                            class="d-inline"
+                            onclick="return confirm('¿Seguro de eliminar este registro?')">
 
                             @csrf
                             @method('DELETE')

@@ -104,14 +104,14 @@ class ProgramaFormacionController extends Controller
      * Remove the specified resource from storage.
      */
     public function destroy(ProgramaFormacion $programa)
-{
-    $programa->delete();
+    {
+        $programa->delete();
 
-    return redirect()
-        ->route('programas.index')
-        ->with(
-            'success',
-            'Programa eliminado correctamente'
-        );
-}
+        return redirect()
+            ->route('programas.index')
+            ->with(
+                'success',
+                'Programa eliminado correctamente'
+            );
+    }
 }
