@@ -49,7 +49,8 @@ Route::get('/dashboard', function () {
         )
     );
 
-})->middleware('auth');
+})->name('dashboard')->middleware('auth');
+
 
 require __DIR__.'/auth.php';
 

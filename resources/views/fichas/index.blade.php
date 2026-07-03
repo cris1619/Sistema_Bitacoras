@@ -21,15 +21,7 @@
 
 @section('content')
 
-@if(session('success'))
-
-<div class="alert alert-success">
-
-    {{ session('success') }}
-
-</div>
-
-@endif
+@include('partials.alerts')
 
 <div class="card">
 
@@ -42,11 +34,8 @@
                 <tr>
 
                     <th>ID</th>
-
                     <th>Ficha</th>
-
                     <th>Programa</th>
-
                     <th width="180">Acciones</th>
 
                 </tr>
@@ -76,23 +65,36 @@
 
                         </a>
 
-                        <form
-                            action="{{ route('fichas.destroy', $ficha) }}"
-                            method="POST"
-                            class="d-inline"
-                            onclick="return confirm('¿Seguro de eliminar este registro?')">
+                        <button
+                            type="button"
+                            class="btn btn-danger btn-sm"
 
-                            @csrf
-                            @method('DELETE')
+                            data-toggle="modal"
+                            data-target="#modalEliminar{{ $ficha->id }}">
 
-                            <button
-                                class="btn btn-danger btn-sm">
+                            Eliminar
 
-                                Eliminar
+                        </button>
 
-                            </button>
+                        @include(
+                            'partials.modal-delete',
 
-                        </form>
+                            [
+
+                                'modalId' =>
+                                    'modalEliminar' . $ficha->id,
+
+                                'route' =>
+                                    route(
+                                        'fichas.destroy',
+                                        $ficha
+                                    ),
+
+                                'message' =>
+                                    '¿Seguro que deseas eliminar esta ficha?'
+
+                            ]
+                        )
 
                     </td>
 

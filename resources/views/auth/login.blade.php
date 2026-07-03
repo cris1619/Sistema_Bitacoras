@@ -1,47 +1,242 @@
-<x-guest-layout>
-    <!-- Session Status -->
-    <x-auth-session-status class="mb-4" :status="session('status')" />
+<!DOCTYPE html>
+<html lang="es">
 
-    <form method="POST" action="{{ route('login') }}">
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>
+
+        Iniciar Sesión
+
+    </title>
+
+    <!-- Bootstrap -->
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet">
+
+    <!-- FontAwesome -->
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <style>
+
+    body {
+
+        background:
+            linear-gradient(
+                rgba(0,0,0,0.7),
+                rgba(0,0,0,0.7)
+            ),
+            url('{{ asset("img/fondo-sena.jpg") }}');
+
+        background-size: cover;
+
+        background-position: center;
+
+        background-repeat: no-repeat;
+
+        min-height: 100vh;
+
+        display: flex;
+
+        justify-content: center;
+
+        align-items: center;
+
+    }
+
+    .login-box,
+    .register-box {
+
+        background: rgba(0,0,0,0.55);
+
+        backdrop-filter: blur(8px);
+
+        border-radius: 20px;
+
+        padding: 45px;
+
+        box-shadow: 0 0 30px rgba(0,0,0,0.5);
+
+        color: white;
+
+    }
+
+    .login-box {
+
+        width: 420px;
+
+    }
+
+    .register-box {
+
+        width: 500px;
+
+    }
+
+    .logo {
+
+        width: 100px;
+
+        display: block;
+
+        margin: auto;
+
+        margin-bottom: 20px;
+
+    }
+
+    .form-control {
+
+        background: rgba(255,255,255,0.15);
+
+        border: 1px solid rgba(255,255,255,0.2);
+
+        color: white;
+
+    }
+
+    .form-control:focus {
+
+        background: rgba(255,255,255,0.2);
+
+        color: white;
+
+        border-color: #28a745;
+
+        box-shadow: none;
+
+    }
+
+    .form-control::placeholder {
+
+        color: rgba(255,255,255,0.7);
+
+    }
+
+    label {
+
+        margin-bottom: 6px;
+
+    }
+
+    h3 {
+
+        font-weight: bold;
+
+    }
+
+</style>
+</head>
+
+<body>
+
+<div class="login-box">
+
+    <img
+        src="{{ asset('img/logo-sena.png') }}"
+        class="logo">
+
+    <h3 class="text-center mb-4">
+
+        Sistema de Seguimiento
+
+    </h3>
+
+    @if ($errors->any())
+
+    <div class="alert alert-danger">
+
+        <ul class="mb-0">
+
+            @foreach ($errors->all() as $error)
+
+            <li>{{ $error }}</li>
+
+            @endforeach
+
+        </ul>
+
+    </div>
+
+    @endif
+
+    <form method="POST"
+          action="{{ route('login') }}">
+
         @csrf
 
-        <!-- Email Address -->
-        <div>
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
-        </div>
+        <div class="mb-3">
 
-        <!-- Password -->
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
+            <label class="text-white">
 
-            <x-text-input id="password" class="block mt-1 w-full"
-                            type="password"
-                            name="password"
-                            required autocomplete="current-password" />
+                Correo Electrónico
 
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
-        </div>
-
-        <!-- Remember Me -->
-        <div class="block mt-4">
-            <label for="remember_me" class="inline-flex items-center">
-                <input id="remember_me" type="checkbox" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500" name="remember">
-                <span class="ms-2 text-sm text-gray-600">{{ __('Remember me') }}</span>
             </label>
+
+            <input
+                type="email"
+                name="email"
+                class="form-control"
+                required>
+
         </div>
 
-        <div class="flex items-center justify-end mt-4">
-            @if (Route::has('password.request'))
-                <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('password.request') }}">
-                    {{ __('Forgot your password?') }}
-                </a>
-            @endif
+        <div class="mb-3">
 
-            <x-primary-button class="ms-3">
-                {{ __('Log in') }}
-            </x-primary-button>
+            <label class="text-white">
+
+                Contraseña
+
+            </label>
+
+            <input
+                type="password"
+                name="password"
+                class="form-control"
+                required>
+
         </div>
+
+        <div class="mb-3 form-check">
+
+            <input
+                type="checkbox"
+                class="form-check-input"
+                name="remember">
+
+            <label
+                class="form-check-label">
+
+                Recordarme
+
+            </label>
+
+        </div>
+
+        <button
+            type="submit"
+            class="btn btn-success w-100">
+
+            <i class="fas fa-sign-in-alt"></i>
+
+            Ingresar
+
+        </button>
+
     </form>
-</x-guest-layout>
+
+</div>
+
+</body>
+
+</html>

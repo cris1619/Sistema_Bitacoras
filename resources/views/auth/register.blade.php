@@ -1,66 +1,174 @@
-<x-guest-layout>
-    <form method="POST" action="{{ route('register') }}">
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>
+
+        Registro
+
+    </title>
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet">
+
+    <style>
+
+        body {
+
+            background:
+                linear-gradient(
+                    rgba(0,0,0,0.7),
+                    rgba(0,0,0,0.7)
+                ),
+                url('{{ asset("img/fondo-sena.jpg") }}');
+
+            background-size: cover;
+
+            background-position: center;
+
+            min-height: 100vh;
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+        }
+
+        .register-box {
+
+            width: 500px;
+
+            background: rgba(255,255,255,0.95);
+
+            border-radius: 20px;
+
+            padding: 40px;
+
+            box-shadow: 0 0 30px rgba(0,0,0,0.4);
+
+        }
+
+        .logo {
+
+            width: 100px;
+
+            display: block;
+
+            margin: auto;
+
+            margin-bottom: 20px;
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="register-box">
+
+    <img
+        src="{{ asset('img/logo-sena.png') }}"
+        class="logo">
+
+    <h3 class="text-center mb-4">
+
+        Registro de Usuario
+
+    </h3>
+
+    <form method="POST"
+          action="{{ route('register') }}">
+
         @csrf
-        <!-- Nombre Completo -->
 
-        <div>
-            <x-input-label for="nombre_completo" :value="__('Nombre Completo')" />
+        <div class="mb-3">
 
-            <x-text-input
-                id="nombre_completo"
-                class="block mt-1 w-full"
+            <label>
+
+                Nombre Completo
+
+            </label>
+
+            <input
                 type="text"
                 name="nombre_completo"
-                :value="old('nombre_completo')"
-                required
-                autofocus
-                autocomplete="nombre_completo"
-            />
+                class="form-control"
+                required>
 
-            <x-input-error
-                :messages="$errors->get('nombre_completo')"
-                class="mt-2"
-            />
         </div>
 
-        <!-- Email Address -->
-        <div class="mt-4">
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autocomplete="username" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
+        <div class="mb-3">
+
+            <label class="text-white">
+
+                Correo Electrónico
+
+            </label>
+
+            <input
+                type="email"
+                name="email"
+                class="form-control"
+                required>
+
         </div>
 
-        <!-- Password -->
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
+        <div class="mb-3">
 
-            <x-text-input id="password" class="block mt-1 w-full"
-                            type="password"
-                            name="password"
-                            required autocomplete="new-password" />
+            <label class="text-white">
 
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
+                Contraseña
+
+            </label>
+
+            <input
+                type="password"
+                name="password"
+                class="form-control"
+                required>
+
         </div>
 
-        <!-- Confirm Password -->
-        <div class="mt-4">
-            <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
+        <div class="mb-3">
 
-            <x-text-input id="password_confirmation" class="block mt-1 w-full"
-                            type="password"
-                            name="password_confirmation" required autocomplete="new-password" />
+            <label>
 
-            <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
+                Confirmar Contraseña
+
+            </label>
+
+            <input
+                type="password"
+                name="password_confirmation"
+                class="form-control"
+                required>
+
         </div>
 
-        <div class="flex items-center justify-end mt-4">
-            <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('login') }}">
-                {{ __('Already registered?') }}
-            </a>
+        <button
+            type="submit"
+            class="btn btn-success w-100">
 
-            <x-primary-button class="ms-4">
-                {{ __('Register') }}
-            </x-primary-button>
-        </div>
+            Registrarse
+
+        </button>
+
     </form>
-</x-guest-layout>
+
+</div>
+
+</body>
+
+</html>

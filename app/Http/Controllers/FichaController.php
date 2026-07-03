@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Ficha;
 use App\Models\ProgramaFormacion;
+use Throwable;
 
 class FichaController extends Controller
 {
@@ -117,15 +118,28 @@ class FichaController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Ficha $ficha)
+public function destroy(Ficha $ficha)
 {
-    $ficha->delete();
+    try {
 
-    return redirect()
-        ->route('fichas.index')
-        ->with(
-            'success',
-            'Ficha eliminada correctamente'
-        );
+        $ficha->delete();
+
+        return redirect()
+            ->route('fichas.index')
+            ->with(
+                'success',
+                'Ficha eliminada correctamente'
+            );
+
+    } catch (Throwable $e) {
+
+        return redirect()
+            ->route('fichas.index')
+            ->with(
+                'error',
+
+                'No se puede eliminar la ficha porque tiene registros asociados.'
+            );
+    }
 }
 }
