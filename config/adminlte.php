@@ -300,185 +300,113 @@ return [
     */
 
     'menu' => [
-        // Navbar items:
-        [
-            'type' => 'navbar-search',
-            'text' => 'search',
-            'topnav_right' => true,
-        ],
-        [
-            'type' => 'fullscreen-widget',
-            'topnav_right' => true,
-        ],
 
-        // Sidebar items:
-        [
-            'type' => 'sidebar-menu-search',
-            'text' => 'search',
-        ],
-        [
-            'text' => 'blog',
-            'url' => 'admin/blog',
-            'can' => 'manage-blog',
-        ],
-        [
-            'text' => 'Dashboard',
-            'url'  => 'dashboard',
-            'icon' => 'fas fa-home',
-        ],
+    /*
+    |--------------------------------------------------------------------------
+    | DASHBOARD
+    |--------------------------------------------------------------------------
+    */
 
-        [
-            'text' => 'Programas',
-            'url'  => 'programas',
-            'icon' => 'fas fa-graduation-cap',
-        ],
-        [
-            'text' => 'Fichas',
-            'url'  => 'fichas',
-            'icon' => 'fas fa-id-card',
-        ],
-        [
-            'text' => 'Aprendices',
-            'url'  => 'aprendices',
-            'icon' => 'fas fa-users',
-        ],
-        [
-            'text' => 'Seguimientos',
-            'url'  => 'seguimientos',
-            'icon' => 'fas fa-clipboard-list',
-        ],
-        [
-            'text' => 'Bitácoras',
-            'url'  => 'bitacoras',
-            'icon' => 'fas fa-book',
-        ],
-        [
-            'text' => 'Estados de bitácora',
-            'url'  => 'estados-bitacora',
-            'icon' => 'fas fa-tasks',
-        ],
-        [
-            'text' => 'Estados de aprendiz',
-            'url'  => 'estados-aprendiz',
-            'icon' => 'fas fa-user-check',
-        ],
-        [
-            'text' => 'Vínculos formativos',
-            'url'  => 'vinculos-formativos',
-            'icon' => 'fas fa-handshake',
-        ],
-        [
-            'text' => 'Instructores',
-            'url'  => 'instructores',
-            'icon' => 'fas fa-chalkboard-teacher',
-        ],
-        [
-            'text' => 'Usuarios',
-            'url'  => 'usuarios',
-            'icon' => 'fas fa-user',
-        ],
+    [
+        'text' => 'Dashboard',
+        'route' => 'dashboard',
+        'icon' => 'fas fa-chart-line',
 
-        ['header' => 'account_settings'],
-        [
-            'text' => 'profile',
-            'url'  => '#',
-            'icon' => 'fas fa-fw fa-user',
-        ],
-        [
-            'text' => 'change_password',
-            'url'  => '#',
-            'icon' => 'fas fa-fw fa-lock',
-        ],
-
-        ['header' => 'labels'],
-        [
-            'text'       => 'important',
-            'icon_color' => 'red',
-            'url'        => '#',
-        ],
-        [
-            'text'       => 'warning',
-            'icon_color' => 'yellow',
-            'url'        => '#',
-        ],
-        [
-            'text'       => 'information',
-            'icon_color' => 'cyan',
-            'url'        => '#',
-        ],
-        [
-            'text' => 'pages',
-            'url' => 'admin/pages',
-            'icon' => 'far fa-fw fa-file',
-            'label' => 4,
-            'label_color' => 'success',
-        ],
-        ['header' => 'account_settings'],
-        [
-            'text' => 'profile',
-            'url' => 'admin/settings',
-            'icon' => 'fas fa-fw fa-user',
-        ],
-        [
-            'text' => 'change_password',
-            'url' => 'admin/settings',
-            'icon' => 'fas fa-fw fa-lock',
-        ],
-        [
-            'text' => 'multilevel',
-            'icon' => 'fas fa-fw fa-share',
-            'submenu' => [
-                [
-                    'text' => 'level_one',
-                    'url' => '#',
-                ],
-                [
-                    'text' => 'level_one',
-                    'url' => '#',
-                    'submenu' => [
-                        [
-                            'text' => 'level_two',
-                            'url' => '#',
-                        ],
-                        [
-                            'text' => 'level_two',
-                            'url' => '#',
-                            'submenu' => [
-                                [
-                                    'text' => 'level_three',
-                                    'url' => '#',
-                                ],
-                                [
-                                    'text' => 'level_three',
-                                    'url' => '#',
-                                ],
-                            ],
-                        ],
-                    ],
-                ],
-                [
-                    'text' => 'level_one',
-                    'url' => '#',
-                ],
-            ],
-        ],
-        ['header' => 'labels'],
-        [
-            'text' => 'important',
-            'icon_color' => 'red',
-            'url' => '#',
-        ],
-        [
-            'text' => 'warning',
-            'icon_color' => 'yellow',
-            'url' => '#',
-        ],
-        [
-            'text' => 'information',
-            'icon_color' => 'cyan',
-            'url' => '#',
+        'can' => [
+            'Administrador',
+            'Coordinador'
         ],
     ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | PROGRAMAS
+    |--------------------------------------------------------------------------
+    */
+
+    [
+        'text' => 'Programas',
+        'route' => 'programas.index',
+        'icon' => 'fas fa-book',
+
+        'can' => [
+            'Administrador',
+            'Coordinador'
+        ],
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | FICHAS
+    |--------------------------------------------------------------------------
+    */
+
+    [
+        'text' => 'Fichas',
+        'route' => 'fichas.index',
+        'icon' => 'fas fa-layer-group',
+
+        'can' => [
+            'Administrador',
+            'Coordinador'
+        ],
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | APRENDICES
+    |--------------------------------------------------------------------------
+    */
+
+    [
+        'text' => 'Aprendices',
+        'route' => 'aprendices.index',
+        'icon' => 'fas fa-users',
+
+        'can' => [
+            'Administrador',
+            'Coordinador',
+            'Instructor'
+        ],
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | SEGUIMIENTOS
+    |--------------------------------------------------------------------------
+    */
+
+    [
+        'text' => 'Seguimientos',
+        'route' => 'seguimientos.index',
+        'icon' => 'fas fa-clipboard-check',
+
+        'can' => [
+            'Administrador',
+            'Coordinador',
+            'Instructor'
+        ],
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | BITÁCORAS
+    |--------------------------------------------------------------------------
+    */
+
+    [
+        'text' => 'Bitácoras',
+        'route' => 'bitacoras.index',
+        'icon' => 'fas fa-file-alt',
+
+        'can' => [
+            'Administrador',
+            'Coordinador',
+            'Instructor',
+            'Aprendiz'
+        ],
+    ],
+],
 
     /*
     |--------------------------------------------------------------------------

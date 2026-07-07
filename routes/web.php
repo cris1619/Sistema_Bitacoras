@@ -1,92 +1,186 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+
 use App\Http\Controllers\ProgramaFormacionController;
 use App\Http\Controllers\FichaController;
 use App\Http\Controllers\AprendizController;
 use App\Http\Controllers\SeguimientoController;
 use App\Http\Controllers\BitacoraEvidenciaController;
 
+/*
+|--------------------------------------------------------------------------
+| WELCOME
+|--------------------------------------------------------------------------
+*/
+
 Route::get('/', function () {
+
     return view('welcome');
+
 });
 
-Route::get('/dashboard', function () {
+/*
+|--------------------------------------------------------------------------
+| AUTH
+|--------------------------------------------------------------------------
+*/
 
-    $totalAprendices =
-        \App\Models\Aprendiz::count();
+require __DIR__ . '/auth.php';
 
-    $totalBitacoras =
-        \App\Models\BitacoraEvidencia::count();
+/*
+|--------------------------------------------------------------------------
+| DASHBOARD GENERAL
+|--------------------------------------------------------------------------
+*/
 
-    $pendientes =
-        \App\Models\BitacoraEvidencia::whereHas(
+Route::middleware([
 
-            'estado',
+    'auth',
+    'rol:Administrador,Coordinador'
 
-            function ($q) {
+])->group(function () {
 
-                $q->where(
-                    'nombre_estado',
-                    'Pendiente'
-                );
-            }
+    Route::get('/dashboard', function () {
 
-        )->count();
+        $totalAprendices =
+            \App\Models\Aprendiz::count();
 
-    $seguimientos =
-        \App\Models\Seguimiento::count();
+        $totalBitacoras =
+            \App\Models\BitacoraEvidencia::count();
 
-    return view(
+        $pendientes =
+            \App\Models\BitacoraEvidencia::whereHas(
 
-        'dashboard',
+                'estado',
 
-        compact(
-            'totalAprendices',
-            'totalBitacoras',
-            'pendientes',
-            'seguimientos'
-        )
-    );
+                function ($q) {
 
-})->name('dashboard')->middleware('auth');
+                    $q->where(
+                        'nombre_estado',
+                        'Pendiente'
+                    );
+                }
 
+            )->count();
 
-require __DIR__.'/auth.php';
+        $seguimientos =
+            \App\Models\Seguimiento::count();
 
-Route::middleware(['auth'])->group(function () {
+        return view(
+
+            'dashboard',
+
+            compact(
+                'totalAprendices',
+                'totalBitacoras',
+                'pendientes',
+                'seguimientos'
+            )
+        );
+
+    })->name('dashboard');
+});
+
+/*
+|--------------------------------------------------------------------------
+| PROGRAMAS
+|--------------------------------------------------------------------------
+*/
+
+Route::middleware([
+
+    'auth',
+    'rol:Administrador,Coordinador'
+
+])->group(function () {
 
     Route::resource(
         'programas',
         ProgramaFormacionController::class
     );
-
 });
 
-Route::resource(
-    'fichas',
-    FichaController::class
-);
+/*
+|--------------------------------------------------------------------------
+| FICHAS
+|--------------------------------------------------------------------------
+*/
 
-Route::resource(
-    'aprendices',
-    AprendizController::class
-);
+Route::middleware([
 
-Route::resource(
-    'seguimientos',
-    SeguimientoController::class
-);
+    'auth',
+    'rol:Administrador,Coordinador'
 
-Route::resource(
-    'bitacoras',
-    BitacoraEvidenciaController::class
-);
+])->group(function () {
 
-Route::get(
+    Route::resource(
+        'fichas',
+        FichaController::class
+    );
+});
 
-    'aprendices/{aprendice}/dashboard',
+/*
+|--------------------------------------------------------------------------
+| APRENDICES
+|--------------------------------------------------------------------------
+*/
 
-    [AprendizController::class, 'dashboard']
+Route::middleware([
 
-)->name('aprendices.dashboard');
+    'auth',
+    'rol:Administrador,Coordinador,Instructor'
+
+])->group(function () {
+
+    Route::resource(
+        'aprendices',
+        AprendizController::class
+    );
+
+    Route::get(
+
+        'aprendices/{aprendice}/dashboard',
+
+        [AprendizController::class, 'dashboard']
+
+    )->name('aprendices.dashboard');
+});
+
+/*
+|--------------------------------------------------------------------------
+| SEGUIMIENTOS
+|--------------------------------------------------------------------------
+*/
+
+Route::middleware([
+
+    'auth',
+    'rol:Administrador,Coordinador,Instructor'
+
+])->group(function () {
+
+    Route::resource(
+        'seguimientos',
+        SeguimientoController::class
+    );
+});
+
+/*
+|--------------------------------------------------------------------------
+| BITÁCORAS
+|--------------------------------------------------------------------------
+*/
+
+Route::middleware([
+
+    'auth',
+    'rol:Administrador,Coordinador,Instructor,Aprendiz'
+
+])->group(function () {
+
+    Route::resource(
+        'bitacoras',
+        BitacoraEvidenciaController::class
+    );
+});

@@ -48,7 +48,7 @@
 
                         @foreach($aprendices as $aprendiz)
 
-                        <option value="{{ $aprendiz->id }}">
+                        <option value="{{ $aprendiz->id }}" {{ old('aprendiz_id', $bitacora->aprendiz_id) == $aprendiz->id ? 'selected' : '' }}>
 
                             {{ $aprendiz->nombres }}
                             {{ $aprendiz->apellidos }}
@@ -83,7 +83,7 @@
 
                         @foreach($seguimientos as $seguimiento)
 
-                        <option value="{{ $seguimiento->id }}">
+                        <option value="{{ $seguimiento->id }}" {{ old('seguimiento_id', $bitacora->seguimiento_id) == $seguimiento->id ? 'selected' : '' }}>
 
                             Seguimiento
                             {{ $seguimiento->numero_seguimiento }}
@@ -150,7 +150,7 @@
                         name="numero_bitacora"
                         class="form-control"
                         required
-                        value="{{ $bitacora->numero_bitacora }}">
+                        value="{{ old('numero_bitacora', $bitacora->numero_bitacora) }}">
 
                 </div>
 
@@ -169,7 +169,7 @@
                         name="fecha_limite_entrega"
                         class="form-control"
                         required
-                        value="{{ $bitacora->fecha_limite_entrega }}">
+                        value="{{ old('fecha_limite_entrega', $bitacora->fecha_limite_entrega) }}">
 
                 </div>
 
@@ -189,11 +189,7 @@
                     type="date"
                     name="fecha_entrega"
                     class="form-control"
-                    value="{{ $bitacora->fecha_entrega }}">
-
-            </div>
-
-            <!-- EVIDENCIA -->
+                    value="{{ old('fecha_entrega', $bitacora->fecha_entrega) }}">
 
             <div class="mb-3">
 
@@ -206,8 +202,7 @@
                 <input
                     type="file"
                     name="archivo_evidencia_url"
-                    class="form-control"
-                    value="{{ $bitacora->archivo_evidencia_url }}">
+                    class="form-control">
 
             </div>
 
@@ -224,7 +219,7 @@
                 <textarea
                     name="novedades"
                     rows="4"
-                    class="form-control">{{ $bitacora->novedades }}</textarea>
+                    class="form-control">{{ old('novedades', $bitacora->novedades) }}</textarea>
 
             </div>
 
