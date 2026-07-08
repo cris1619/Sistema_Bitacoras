@@ -22,19 +22,72 @@ class AprendizController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+public function index()
 {
-    $aprendices = Aprendiz::with([
-        'ficha.programa',
-        'estado',
-        'vinculo'
-    ])
-    ->latest()
-    ->paginate(10);
+    $user = auth()->user();
+
+    /*
+    |--------------------------------------------------------------------------
+    | INSTRUCTOR
+    |--------------------------------------------------------------------------
+    */
+
+    if ($user->tieneRol('Instructor')) {
+
+        $programas = $user
+            ->instructor
+            ->programaIds();
+
+        $aprendices = Aprendiz::with([
+
+                'ficha.programa',
+                'estado'
+
+            ])
+            ->whereHas(
+
+                'ficha',
+
+                function ($query) use ($programas) {
+
+                    $query->whereIn(
+
+                        'programa_id',
+
+                        $programas
+
+                    );
+
+                }
+
+            )
+            ->latest()
+            ->paginate(10);
+
+    } else {
+
+        /*
+        |--------------------------------------------------------------------------
+        | ADMINISTRADOR Y COORDINADOR
+        |--------------------------------------------------------------------------
+        */
+
+        $aprendices = Aprendiz::with([
+
+                'ficha.programa',
+                'estado'
+
+            ])
+            ->latest()
+            ->paginate(10);
+    }
 
     return view(
+
         'aprendices.index',
+
         compact('aprendices')
+
     );
 }
 
@@ -359,6 +412,37 @@ public function show(Aprendiz $aprendice)
         'estado',
         'vinculo'
     ]);
+
+    /*
+    |--------------------------------------------------------------------------
+    | RESTRICCIÓN PARA INSTRUCTORES
+    |--------------------------------------------------------------------------
+    */
+
+    if (auth()->user()->tieneRol('Instructor')) {
+
+        $programasInstructor = auth()->user()
+            ->instructor
+            ->programas
+            ->pluck('id');
+
+        if (
+    !$aprendice->ficha ||
+    !$programasInstructor->contains(
+        $aprendice->ficha->programa_id
+    )
+) {
+
+    return redirect()
+
+        ->route('aprendices.index')
+
+        ->with(
+            'error',
+            'No tiene permisos para acceder a la información de este aprendiz.'
+        );
+}
+    }
 
     return view(
         'aprendices.show',

@@ -102,4 +102,5 @@ class Aprendiz extends Model
             User::class
         );
     }
+    
 }

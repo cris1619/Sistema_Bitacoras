@@ -13,19 +13,75 @@ class SeguimientoController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+public function index()
 {
-    $seguimientos = Seguimiento::with([
-        'aprendiz',
-        'instructor',
-        'estado'
-    ])
-    ->latest()
-    ->paginate(10);
+    $user = auth()->user();
+
+    /*
+    |--------------------------------------------------------------------------
+    | INSTRUCTOR
+    |--------------------------------------------------------------------------
+    */
+
+    if ($user->tieneRol('Instructor')) {
+
+        $programas = $user
+            ->instructor
+            ->programaIds();
+
+        $seguimientos = Seguimiento::with([
+
+                'aprendiz',
+                'instructor',
+                'estado'
+
+            ])
+            ->whereHas(
+
+                'aprendiz.ficha',
+
+                function ($query) use ($programas) {
+
+                    $query->whereIn(
+
+                        'programa_id',
+
+                        $programas
+
+                    );
+
+                }
+
+            )
+            ->latest()
+            ->paginate(10);
+
+    } else {
+
+        /*
+        |--------------------------------------------------------------------------
+        | ADMINISTRADOR Y COORDINADOR
+        |--------------------------------------------------------------------------
+        */
+
+        $seguimientos = Seguimiento::with([
+
+                'aprendiz',
+                'instructor',
+                'estado'
+
+            ])
+            ->latest()
+            ->paginate(10);
+
+    }
 
     return view(
+
         'seguimientos.index',
+
         compact('seguimientos')
+
     );
 }
 

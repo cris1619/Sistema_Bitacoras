@@ -17,6 +17,8 @@ public function index(Request $request)
 {
     $buscar = $request->buscar;
 
+    $user = auth()->user();
+
     $aprendices = Aprendiz::with([
 
         'ficha.programa',
@@ -25,40 +27,95 @@ public function index(Request $request)
 
     ])
 
-    ->when($buscar, function ($query) use ($buscar) {
+    /*
+    |--------------------------------------------------------------------------
+    | FILTRO POR INSTRUCTOR
+    |--------------------------------------------------------------------------
+    */
 
-        $query->where(function ($q) use ($buscar) {
+    ->when(
 
-            $q->where(
-                'nombres',
-                'like',
-                "%{$buscar}%"
-            )
+        $user->tieneRol('Instructor'),
 
-            ->orWhere(
-                'apellidos',
-                'like',
-                "%{$buscar}%"
-            )
+        function ($query) use ($user) {
 
-            ->orWhere(
-                'documento_identidad',
-                'like',
-                "%{$buscar}%"
+            $programas = $user->instructor
+                ->programas
+                ->pluck('id');
+
+            $query->whereHas(
+
+                'ficha',
+
+                function ($q) use ($programas) {
+
+                    $q->whereIn(
+                        'programa_id',
+                        $programas
+                    );
+
+                }
+
             );
-        });
-    })
+
+        }
+
+    )
+
+    /*
+    |--------------------------------------------------------------------------
+    | BUSCADOR
+    |--------------------------------------------------------------------------
+    */
+
+    ->when(
+
+        $buscar,
+
+        function ($query) use ($buscar) {
+
+            $query->where(function ($q) use ($buscar) {
+
+                $q->where(
+                    'nombres',
+                    'like',
+                    "%{$buscar}%"
+                )
+
+                ->orWhere(
+                    'apellidos',
+                    'like',
+                    "%{$buscar}%"
+                )
+
+                ->orWhere(
+                    'documento_identidad',
+                    'like',
+                    "%{$buscar}%"
+                );
+
+            });
+
+        }
+
+    )
 
     ->latest()
 
     ->paginate(10);
 
     return view(
+
         'bitacoras.index',
+
         compact(
+
             'aprendices',
+
             'buscar'
+
         )
+
     );
 }
     /**

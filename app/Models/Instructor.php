@@ -55,6 +55,12 @@ class Instructor extends Model
         );
     }
 
+    public function programaIds()
+    {
+        return $this->programas()
+            ->pluck('programas_formacion.id');
+    }
+
     /*
     |--------------------------------------------------------------------------
     | NOMBRE COMPLETO
