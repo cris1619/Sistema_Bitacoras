@@ -22,4 +22,18 @@ class ProgramaFormacion extends Model
     {
         return $this->hasMany(Ficha::class, 'programa_id');
     }
+
+    public function instructores()
+    {
+        return $this->belongsToMany(
+
+            Instructor::class,
+
+            'instructor_programa',
+
+            'programa_id',
+
+            'instructor_id'
+        );
+    }
 }

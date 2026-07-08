@@ -73,7 +73,7 @@ if (
     $user->tieneRol('Aprendiz')
 ) {
 
-    return redirect()->route('bitacoras.index');
+    return redirect()->route('aprendices.dashboard', $user->aprendiz->id);
 }
 
 /*

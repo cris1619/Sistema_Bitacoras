@@ -134,10 +134,10 @@ return [
     */
 
     'usermenu_enabled' => true,
-    'usermenu_header' => false,
+    'usermenu_header' => true,
     'usermenu_header_class' => 'bg-primary',
     'usermenu_image' => false,
-    'usermenu_desc' => false,
+    'usermenu_desc' => 'Usuario autenticado',
     'usermenu_profile_url' => false,
 
     /*
@@ -256,10 +256,10 @@ return [
     |
     */
 
-    'use_route_url' => false,
-    'dashboard_url' => 'home',
+    'use_route_url' => true,
+    'dashboard_url' => 'dashboard',
     'logout_url' => 'logout',
-    'logout_method' => 'post',
+    'logout_method' => 'POST',
     'login_url' => 'login',
     'register_url' => 'register',
     'password_reset_url' => 'password/reset',
@@ -370,6 +370,16 @@ return [
         ],
     ],
 
+    [
+    'text' => 'Instructores',
+    'url' => 'instructores',
+    'icon' => 'fas fa-chalkboard-teacher',
+    'can' => [
+        'Administrador',
+        'Coordinador'
+        ],
+    ],
+
     /*
     |--------------------------------------------------------------------------
     | SEGUIMIENTOS
@@ -402,10 +412,28 @@ return [
         'can' => [
             'Administrador',
             'Coordinador',
-            'Instructor',
+            'Instructor'
+        ],
+    ],
+
+    [
+        'header' => 'APRENDIZ',
+
+        'can' => [
             'Aprendiz'
         ],
     ],
+
+       [
+    'text' => 'Mi Panel',
+    'route' => 'dashboard',
+    'icon' => 'fas fa-user',
+
+    'can' => [
+        'Aprendiz'
+    ],
+],
+
 ],
 
     /*

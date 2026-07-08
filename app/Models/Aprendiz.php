@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Models\User;
 
 class Aprendiz extends Model
 {
@@ -13,29 +14,30 @@ class Aprendiz extends Model
 
     protected $fillable = [
 
-        'ficha_id',
-        'estado_id',
-        'vinculo_id',
+    'user_id',
 
-        'tipo_documento',
-        'documento_identidad',
+    'ficha_id',
 
-        'nombres',
-        'apellidos',
+    'estado_id',
 
-        'correo_electronico',
-        'telefono',
+    'vinculo_id',
 
-        'empresa',
-        'jefe_inmediato',
-        'correo_empresa',
-        'telefono_empresa',
+    'tipo_documento',
 
-        'fecha_inicio_practica',
-        'fecha_fin_practica',
+    'documento_identidad',
 
-        'detalles_contrato'
-    ];
+    'nombres',
+
+    'apellidos',
+
+    'correo_electronico',
+
+    'telefono',
+
+    'fecha_inicio_practica',
+
+    'fecha_fin_practica',
+];
 
     // ====================================
     // RELACIÓN FICHA
@@ -91,6 +93,13 @@ class Aprendiz extends Model
         return $this->hasMany(
             BitacoraEvidencia::class,
             'aprendiz_id'
+        );
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(
+            User::class
         );
     }
 }

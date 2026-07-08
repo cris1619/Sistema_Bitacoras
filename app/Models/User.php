@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
+use App\Models\Aprendiz;
 
 class User extends Authenticatable
 {
@@ -64,4 +65,36 @@ class User extends Authenticatable
             ->where('nombre_rol', $rol)
             ->exists();
     }
+
+    public function adminlte_desc()
+    {
+        return 'Usuario del sistema';
+    }
+
+    public function adminlte_profile_url()
+    {
+        return false;
+    }
+
+    public function aprendiz()
+    {
+        return $this->hasOne(
+            Aprendiz::class
+        );
+    }
+
+    public function adminlte_image()
+    {
+        return 'https://ui-avatars.com/api/?name=' .
+            urlencode($this->nombre_completo);
+    }
+
+    public function instructor()
+    {
+        return $this->hasOne(
+            Instructor::class
+        );
+    }
+
+    
 }

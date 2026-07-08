@@ -2,11 +2,16 @@
 
 use Illuminate\Support\Facades\Route;
 
-use App\Http\Controllers\ProgramaFormacionController;
+use App\Models\Aprendiz;
+use App\Models\Seguimiento;
+use App\Models\BitacoraEvidencia;
+
 use App\Http\Controllers\FichaController;
 use App\Http\Controllers\AprendizController;
 use App\Http\Controllers\SeguimientoController;
 use App\Http\Controllers\BitacoraEvidenciaController;
+use App\Http\Controllers\InstructorController;
+use App\Http\Controllers\ProgramaFormacionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,27 +35,53 @@ require __DIR__ . '/auth.php';
 
 /*
 |--------------------------------------------------------------------------
-| DASHBOARD GENERAL
+| DASHBOARD PRINCIPAL
 |--------------------------------------------------------------------------
 */
 
-Route::middleware([
+Route::middleware('auth')->get(
 
-    'auth',
-    'rol:Administrador,Coordinador'
+    '/dashboard',
 
-])->group(function () {
+    function () {
 
-    Route::get('/dashboard', function () {
+        $user = auth()->user();
+
+        /*
+        |--------------------------------------------------------------------------
+        | APRENDIZ
+        |--------------------------------------------------------------------------
+        */
+
+        if (
+            $user->tieneRol('Aprendiz')
+            &&
+            $user->aprendiz
+        ) {
+
+            return redirect()->route(
+
+                'aprendices.dashboard',
+
+                $user->aprendiz->id
+            );
+        }
+
+        /*
+        |--------------------------------------------------------------------------
+        | ADMIN / COORDINADOR / INSTRUCTOR
+        |--------------------------------------------------------------------------
+        */
+
 
         $totalAprendices =
-            \App\Models\Aprendiz::count();
+            Aprendiz::count();
 
         $totalBitacoras =
-            \App\Models\BitacoraEvidencia::count();
+            BitacoraEvidencia::count();
 
         $pendientes =
-            \App\Models\BitacoraEvidencia::whereHas(
+            BitacoraEvidencia::whereHas(
 
                 'estado',
 
@@ -65,7 +96,7 @@ Route::middleware([
             )->count();
 
         $seguimientos =
-            \App\Models\Seguimiento::count();
+            Seguimiento::count();
 
         return view(
 
@@ -79,8 +110,9 @@ Route::middleware([
             )
         );
 
-    })->name('dashboard');
-});
+    }
+
+)->name('dashboard');
 
 /*
 |--------------------------------------------------------------------------
@@ -96,8 +128,11 @@ Route::middleware([
 ])->group(function () {
 
     Route::resource(
+
         'programas',
+
         ProgramaFormacionController::class
+
     );
 });
 
@@ -115,8 +150,11 @@ Route::middleware([
 ])->group(function () {
 
     Route::resource(
+
         'fichas',
+
         FichaController::class
+
     );
 });
 
@@ -134,9 +172,27 @@ Route::middleware([
 ])->group(function () {
 
     Route::resource(
+
         'aprendices',
+
         AprendizController::class
+
     );
+
+});
+
+/*
+|--------------------------------------------------------------------------
+| DASHBOARD APRENDIZ
+|--------------------------------------------------------------------------
+*/
+
+Route::middleware([
+
+    'auth',
+    'rol:Administrador,Coordinador,Instructor,Aprendiz'
+
+])->group(function () {
 
     Route::get(
 
@@ -145,6 +201,7 @@ Route::middleware([
         [AprendizController::class, 'dashboard']
 
     )->name('aprendices.dashboard');
+
 });
 
 /*
@@ -161,8 +218,11 @@ Route::middleware([
 ])->group(function () {
 
     Route::resource(
+
         'seguimientos',
+
         SeguimientoController::class
+
     );
 });
 
@@ -175,12 +235,20 @@ Route::middleware([
 Route::middleware([
 
     'auth',
-    'rol:Administrador,Coordinador,Instructor,Aprendiz'
+    'rol:Administrador,Coordinador,Instructor'
 
 ])->group(function () {
 
     Route::resource(
+
         'bitacoras',
+
         BitacoraEvidenciaController::class
+
     );
 });
+
+Route::resource('instructores', InstructorController::class)
+    ->parameters([
+        'instructores' => 'instructor',
+    ]);

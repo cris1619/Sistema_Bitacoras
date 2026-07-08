@@ -13,6 +13,9 @@ use Carbon\Carbon;
 use App\Models\Seguimiento;
 use App\Models\EstadoSeguimiento;
 use App\Models\User;
+use App\Models\Role;
+use Illuminate\Support\Facades\Hash;
+
 
 class AprendizController extends Controller
 {
@@ -91,7 +94,38 @@ class AprendizController extends Controller
             'required|max:20',
     ]);
 
-    $aprendiz = Aprendiz::create($request->all());
+    $user = User::create([
+
+    'nombre_completo' =>
+
+        $request->nombres . ' ' .
+        $request->apellidos,
+
+    'email' =>
+
+        $request->correo_electronico,
+
+    'password' =>
+
+        Hash::make(
+            $request->documento_identidad
+        ),
+]);
+
+$rolAprendiz = Role::where(
+    'nombre_rol',
+    'Aprendiz'
+)->first();
+
+$user->roles()->attach(
+    $rolAprendiz->id
+);
+
+    $datos = $request->all();
+
+    $datos['user_id'] = $user->id;
+
+    $aprendiz = Aprendiz::create($datos);
 
 $estadoPendiente = EstadoBitacora::where(
 
