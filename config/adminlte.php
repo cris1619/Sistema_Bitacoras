@@ -380,6 +380,16 @@ return [
         ],
     ],
 
+    [
+    'text' => 'Usuarios',
+    'route' => 'usuarios.index',
+    'icon' => 'fas fa-users-cog',
+    'can' => [
+        'Administrador',
+        'Coordinador'
+    ],
+],
+
     /*
     |--------------------------------------------------------------------------
     | SEGUIMIENTOS

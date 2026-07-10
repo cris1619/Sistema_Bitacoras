@@ -207,6 +207,20 @@ public function index(Request $request)
 
     ]);
 
+    if (auth()->user()->tieneRol('Aprendiz')) {
+
+    abort_unless(
+
+        auth()->user()->aprendiz &&
+        auth()->user()->aprendiz->id == $bitacora->aprendiz_id,
+
+        403,
+        'No tiene permiso para ver esta bitácora.'
+
+    );
+
+}
+
     return view(
         'bitacoras.show',
         compact('bitacora')

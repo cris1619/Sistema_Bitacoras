@@ -12,6 +12,7 @@ use App\Http\Controllers\SeguimientoController;
 use App\Http\Controllers\BitacoraEvidenciaController;
 use App\Http\Controllers\InstructorController;
 use App\Http\Controllers\ProgramaFormacionController;
+use App\Http\Controllers\UsuarioController;
 
 /*
 |--------------------------------------------------------------------------
@@ -138,6 +139,48 @@ Route::middleware([
 
 /*
 |--------------------------------------------------------------------------
+| USUARIOS
+|--------------------------------------------------------------------------
+*/
+
+Route::middleware([
+    'auth',
+    'rol:Administrador'
+])->group(function () {
+
+    Route::resource(
+        'usuarios',
+        UsuarioController::class
+    );
+
+});
+
+Route::post(
+
+    'usuarios/{usuario}/reset-password',
+
+    [UsuarioController::class, 'resetPassword']
+
+)->name('usuarios.reset-password');
+
+Route::post(
+
+    'usuarios/{usuario}/desactivar',
+
+    [UsuarioController::class,'desactivar']
+
+)->name('usuarios.desactivar');
+
+Route::post(
+
+    'usuarios/{id}/activar',
+
+    [UsuarioController::class,'activar']
+
+)->name('usuarios.activar');
+
+/*
+|--------------------------------------------------------------------------
 | FICHAS
 |--------------------------------------------------------------------------
 */
@@ -235,7 +278,7 @@ Route::middleware([
 Route::middleware([
 
     'auth',
-    'rol:Administrador,Coordinador,Instructor'
+    'rol:Administrador,Coordinador,Instructor,Aprendiz'
 
 ])->group(function () {
 
