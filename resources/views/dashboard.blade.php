@@ -4,75 +4,72 @@
 
 @section('content_header')
 
-<h1>
+<div class="d-flex justify-content-between align-items-center mb-2">
 
-    Dashboard Administrativo
+    <div>
 
-</h1>
+        <h2 class="font-weight-bold text-success mb-0">
+
+            Bienvenido, {{ auth()->user()->nombre_completo }}
+
+        </h2>
+
+        <small class="text-muted">
+
+            Sistema de Seguimiento de Bitácoras SENA
+
+        </small>
+
+    </div>
+
+    <span class="badge badge-success p-2">
+
+        {{ now()->format('d/m/Y') }}
+
+    </span>
+
+</div>
 
 @stop
+
 
 @section('content')
 
 <div class="row">
 
-    <!-- APRENDICES -->
+    <!-- Aprendices -->
 
-    <div class="col-md-3">
+    <div class="col-lg-3 col-md-6">
 
-        <div class="small-box bg-primary">
+        <div class="card shadow-sm border-0">
 
-            <div class="inner">
+            <div class="card-body">
 
-                <h3>
+                <div class="d-flex justify-content-between align-items-center">
 
-                    {{ $totalAprendices }}
+                    <div>
 
-                </h3>
+                        <small class="text-muted">
 
-                <p>
+                            APRENDICES
 
-                    Aprendices
+                        </small>
 
-                </p>
+                        <h2 class="font-weight-bold mt-2">
 
-            </div>
+                            {{ $totalAprendices }}
 
-            <div class="icon">
+                        </h2>
 
-                <i class="fas fa-users"></i>
+                    </div>
 
-            </div>
+                    <div class="bg-primary rounded-circle p-3">
 
-        </div>
+                        <i class="fas fa-users fa-2x text-white"></i>
 
-    </div>
+                    </div>
 
-    <!-- BITACORAS -->
-
-    <div class="col-md-3">
-
-        <div class="small-box bg-success">
-
-            <div class="inner">
-
-                <h3>
-
-                    {{ $totalBitacoras }}
-
-                </h3>
-
-                <p>
-
-                    Bitácoras
-
-                </p>
-
-            </div>
-
-            <div class="icon">
-
-                <i class="fas fa-book"></i>
+                </div>
 
             </div>
 
@@ -80,31 +77,39 @@
 
     </div>
 
-    <!-- PENDIENTES -->
+    <!-- Bitácoras -->
 
-    <div class="col-md-3">
+    <div class="col-lg-3 col-md-6">
 
-        <div class="small-box bg-warning">
+        <div class="card shadow-sm border-0">
 
-            <div class="inner">
+            <div class="card-body">
 
-                <h3>
+                <div class="d-flex justify-content-between align-items-center">
 
-                    {{ $pendientes }}
+                    <div>
 
-                </h3>
+                        <small class="text-muted">
 
-                <p>
+                            BITÁCORAS
 
-                    Pendientes
+                        </small>
 
-                </p>
+                        <h2 class="font-weight-bold mt-2">
 
-            </div>
+                            {{ $totalBitacoras }}
 
-            <div class="icon">
+                        </h2>
 
-                <i class="fas fa-clock"></i>
+                    </div>
+
+                    <div class="bg-success rounded-circle p-3">
+
+                        <i class="fas fa-book fa-2x text-white"></i>
+
+                    </div>
+
+                </div>
 
             </div>
 
@@ -112,31 +117,79 @@
 
     </div>
 
-    <!-- SEGUIMIENTOS -->
+    <!-- Pendientes -->
 
-    <div class="col-md-3">
+    <div class="col-lg-3 col-md-6">
 
-        <div class="small-box bg-danger">
+        <div class="card shadow-sm border-0">
 
-            <div class="inner">
+            <div class="card-body">
 
-                <h3>
+                <div class="d-flex justify-content-between align-items-center">
 
-                    {{ $seguimientos }}
+                    <div>
 
-                </h3>
+                        <small class="text-muted">
 
-                <p>
+                            PENDIENTES
 
-                    Seguimientos
+                        </small>
 
-                </p>
+                        <h2 class="font-weight-bold mt-2">
+
+                            {{ $pendientes }}
+
+                        </h2>
+
+                    </div>
+
+                    <div class="bg-warning rounded-circle p-3">
+
+                        <i class="fas fa-clock fa-2x text-white"></i>
+
+                    </div>
+
+                </div>
 
             </div>
 
-            <div class="icon">
+        </div>
 
-                <i class="fas fa-clipboard-check"></i>
+    </div>
+
+    <!-- Seguimientos -->
+
+    <div class="col-lg-3 col-md-6">
+
+        <div class="card shadow-sm border-0">
+
+            <div class="card-body">
+
+                <div class="d-flex justify-content-between align-items-center">
+
+                    <div>
+
+                        <small class="text-muted">
+
+                            SEGUIMIENTOS
+
+                        </small>
+
+                        <h2 class="font-weight-bold mt-2">
+
+                            {{ $seguimientos }}
+
+                        </h2>
+
+                    </div>
+
+                    <div class="bg-danger rounded-circle p-3">
+
+                        <i class="fas fa-clipboard-check fa-2x text-white"></i>
+
+                    </div>
+
+                </div>
 
             </div>
 
@@ -146,58 +199,170 @@
 
 </div>
 
-<!-- TABLA RECIENTES -->
+<div class="row mt-4">
 
-<div class="card">
+    <div class="col-lg-8">
 
-    <div class="card-header">
+        <div class="card shadow-sm border-0">
 
-        <h3 class="card-title">
+            <div class="card-header bg-white">
 
-            Accesos rápidos
+                <h5 class="mb-0">
 
-        </h3>
+                    <i class="fas fa-bolt text-success mr-2"></i>
+
+                    Accesos rápidos
+
+                </h5>
+
+            </div>
+
+            <div class="card-body">
+
+                <div class="row">
+
+                    <div class="col-md-4 mb-3">
+
+                        <a href="{{ route('aprendices.index') }}"
+                           class="btn btn-outline-primary btn-block btn-lg">
+
+                            <i class="fas fa-users mb-2"></i>
+
+                            <br>
+
+                            Aprendices
+
+                        </a>
+
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+
+                        <a href="{{ route('bitacoras.index') }}"
+                           class="btn btn-outline-success btn-block btn-lg">
+
+                            <i class="fas fa-book mb-2"></i>
+
+                            <br>
+
+                            Bitácoras
+
+                        </a>
+
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+
+                        <a href="{{ route('seguimientos.index') }}"
+                           class="btn btn-outline-warning btn-block btn-lg">
+
+                            <i class="fas fa-clipboard-check mb-2"></i>
+
+                            <br>
+
+                            Seguimientos
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
 
     </div>
 
-    <div class="card-body">
+    <div class="col-lg-4">
 
-        <a href="{{ route('aprendices.index') }}"
-           class="btn btn-primary">
+        <div class="card shadow-sm border-0">
 
-            Aprendices
+            <div class="card-header bg-white">
 
-        </a>
+                <h5 class="mb-0">
 
-        <a href="{{ route('seguimientos.index') }}"
-           class="btn btn-success">
+                    <i class="fas fa-chart-pie text-success mr-2"></i>
 
-            Seguimientos
+                    Resumen
 
-        </a>
+                </h5>
 
-        <a href="{{ route('bitacoras.index') }}"
-           class="btn btn-warning">
+            </div>
 
-            Bitácoras
+            <div class="card-body">
 
-        </a>
+                <div class="mb-3">
 
-        <form
-    action="{{ route('logout') }}"
-    method="POST">
+                    <strong>Estado del sistema</strong>
 
-    @csrf
+                    <div class="progress mt-2">
 
-    <button
-        type="submit"
-        class="btn btn-danger">
+                        <div class="progress-bar bg-success"
 
-        Cerrar Sesión
+                             style="width:100%">
 
-    </button>
+                            Operativo
 
-</form>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <hr>
+
+                <p>
+
+                    <strong>Total Aprendices:</strong>
+
+                    {{ $totalAprendices }}
+
+                </p>
+
+                <p>
+
+                    <strong>Bitácoras Registradas:</strong>
+
+                    {{ $totalBitacoras }}
+
+                </p>
+
+                <p>
+
+                    <strong>Seguimientos:</strong>
+
+                    {{ $seguimientos }}
+
+                </p>
+
+                <p>
+
+                    <strong>Pendientes:</strong>
+
+                    {{ $pendientes }}
+
+                </p>
+
+                <hr>
+
+                <form action="{{ route('logout') }}" method="POST">
+
+                    @csrf
+
+                    <button class="btn btn-danger btn-block">
+
+                        <i class="fas fa-sign-out-alt mr-2"></i>
+
+                        Cerrar sesión
+
+                    </button>
+
+                </form>
+
+            </div>
+
+        </div>
 
     </div>
 
