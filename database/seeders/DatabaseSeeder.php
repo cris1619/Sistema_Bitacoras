@@ -16,7 +16,11 @@ class DatabaseSeeder extends Seeder
 
             VinculosSeeder::class,
 
-            AdminSeeder::class
+            AdminSeeder::class,
+
+            ProgramaFormacionSeeder::class,
+            
+            FichaSeeder::class,
         ]);
     }
 }
