@@ -37,6 +37,14 @@ class Aprendiz extends Model
     'fecha_inicio_practica',
 
     'fecha_fin_practica',
+
+    'empresa',
+
+    'jefe_inmediato',
+
+    'correo_empresa',
+
+    'telefono_empresa',
 ];
 
     // ====================================

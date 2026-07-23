@@ -135,8 +135,8 @@ return [
 
     'usermenu_enabled' => true,
     'usermenu_header' => true,
-    'usermenu_header_class' => 'bg-primary',
-    'usermenu_image' => false,
+    'usermenu_header_class' => 'bg-success',
+    'usermenu_image' => true, // <-- CAMBIA A TRUE (para habilitar el contenedor de la imagen/icono)
     'usermenu_desc' => 'Usuario autenticado',
     'usermenu_profile_url' => false,
 
@@ -198,9 +198,9 @@ return [
     'classes_content' => '',
     'classes_sidebar' => 'sidebar-dark-success elevation-4',
     'classes_sidebar_nav' => '',
-    'classes_topnav' => 'navbar-success navbar-dark',
+    'classes_topnav' => 'navbar-white navbar-light',
     'classes_topnav_nav' => 'navbar-expand',
-    'classes_topnav_container' => 'container',
+    'classes_topnav_container' => '',
 
     /*
     |--------------------------------------------------------------------------
@@ -300,6 +300,18 @@ return [
     */
 
     'menu' => [
+
+    // 1. Botón para colapsar/abrir el menú lateral (lado izquierdo)
+    [
+        'type' => 'navbar-minimize',
+        'topnav_right' => false,
+    ],
+
+    // 3. Botón de pantalla completa (opcional, lado derecho)
+    [
+        'type' => 'fullscreen-widget',
+        'topnav_right' => true,
+    ],
 
     /*
     |--------------------------------------------------------------------------

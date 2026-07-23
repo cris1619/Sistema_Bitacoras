@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'Nuevo Aprendiz')
+@section('title', 'Registrar Aprendiz')
 
 @section('css')
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet">
@@ -13,21 +13,36 @@
     border-top: 4px solid #198754 !important;
     border-radius: 18px;
     overflow: hidden;
-    box-shadow: 0 12px 35px rgba(25, 135, 84, 0.10) !important;
+    box-shadow: 0 12px 35px rgba(25, 135, 84, 0.08) !important;
 }
 
-.card-header {
-    border: 0;
+.nav-tabs-custom {
+    border-bottom: 2px solid #e9ecef;
+    background: #f8f9fa;
+    padding: 0.5rem 0.5rem 0 0.5rem;
+    border-radius: 18px 18px 0 0;
+}
+
+.nav-tabs-custom .nav-link {
+    border: none;
+    color: #6c757d;
+    font-weight: 600;
+    padding: 0.8rem 1.25rem;
+    border-radius: 10px 10px 0 0;
+    transition: all 0.25s ease;
+    margin-right: 0.25rem;
+}
+
+.nav-tabs-custom .nav-link:hover {
+    color: #198754;
+    background: rgba(25, 135, 84, 0.05);
+}
+
+.nav-tabs-custom .nav-link.active {
+    color: #198754;
+    background: #ffffff;
+    border-bottom: 3px solid #198754;
     font-weight: 700;
-    letter-spacing: 0.3px;
-}
-
-.card-header.bg-success {
-    background: linear-gradient(135deg, #1e9d5b 0%, #198754 100%) !important;
-}
-
-.card-header.bg-primary {
-    background: linear-gradient(135deg, #2f8efc 0%, #0d6efd 100%) !important;
 }
 
 .form-control,
@@ -36,11 +51,10 @@ textarea {
     min-height: 46px;
     border: 1px solid #d8e4dd;
     border-radius: 12px;
-    font-size: 15px;
+    font-size: 0.95rem;
     font-weight: 500;
     padding: 0.72rem 0.9rem;
     transition: all .25s ease;
-    box-shadow: none;
 }
 
 .form-control:hover,
@@ -56,49 +70,81 @@ textarea:focus {
     box-shadow: 0 0 0 .2rem rgba(25, 135, 84, .15);
 }
 
-.form-label {
+label {
     font-weight: 700;
     color: #2f3b46;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
     margin-bottom: 0.55rem;
-}
-
-.form-label i {
-    width: 18px;
+    font-size: 0.9rem;
 }
 
 .btn-success {
     background: linear-gradient(135deg, #1e9d5b 0%, #198754 100%);
     border: 0;
     box-shadow: 0 8px 20px rgba(25, 135, 84, 0.18);
+    border-radius: 12px;
 }
 
 .btn-success:hover {
     transform: translateY(-1px);
 }
 
-.btn-outline-secondary {
-    border-radius: 12px;
-    padding: 0.75rem 1.25rem;
+/* Homologación Select2 */
+.select2-container--default .select2-selection--single {
+    height: 46px !important;
+    min-height: 46px !important;
+    border: 1px solid #d8e4dd !important;
+    border-radius: 12px !important;
+    background-color: #ffffff !important;
+    padding: 0.2rem 0.5rem !important;
+    transition: all .25s ease;
 }
 
-.select2-container--default .select2-selection--single {
-    min-height: 46px;
-    height: 46px;
-    border: 1px solid #d8e4dd;
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
+.select2-container--default:hover .select2-selection--single {
+    border-color: #198754 !important;
 }
+
+.select2-container--default.select2-container--focus .select2-selection--single,
+.select2-container--default.select2-container--open .select2-selection--single {
+    border-color: #198754 !important;
+    box-shadow: 0 0 0 .2rem rgba(25, 135, 84, .15) !important;
+    outline: none;
+}
+
 .select2-container--default .select2-selection--single .select2-selection__rendered {
-    line-height: 42px !important;
-    color: #495057;
+    color: #2f3b46 !important;
+    font-size: 0.95rem !important;
+    font-weight: 500 !important;
+    line-height: 38px !important;
+    padding-left: 0.4rem !important;
 }
-.select2-container--default.select2-container--focus .select2-selection--single {
-    border-color: #198754;
-    box-shadow: 0 0 0 .2rem rgba(25,135,84,.15);
+
+.select2-container--default .select2-selection--single .select2-selection__placeholder {
+    color: #6c757d !important;
+    font-weight: 400 !important;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__arrow {
+    height: 44px !important;
+    right: 8px !important;
+}
+
+.select2-dropdown {
+    border: 1px solid #198754 !important;
+    border-radius: 12px !important;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1) !important;
+    overflow: hidden;
+    z-index: 1056;
+}
+
+.select2-container--default .select2-search--dropdown .select2-search__field {
+    border: 1px solid #d8e4dd !important;
+    border-radius: 8px !important;
+    padding: 0.4rem 0.7rem !important;
+}
+
+.select2-container--default .select2-results__option--highlighted[aria-selected] {
+    background-color: #198754 !important;
+    color: #ffffff !important;
 }
 </style>
 @stop
@@ -113,240 +159,290 @@ textarea:focus {
                     Registrar Aprendiz
                 </h2>
                 <p class="text-muted mb-0">
-                    Complete la información académica, personal, empresarial y de etapa productiva del aprendiz.
+                    Complete la información académica, personal, empresarial y de etapa productiva.
                 </p>
             </div>
-            <span class="badge bg-success-subtle text-success px-3 py-2 rounded-pill border border-success-subtle">
-                <i class="fas fa-check-circle me-2"></i>
-                Formulario activo
-            </span>
+            <a href="{{ route('aprendices.index') }}" class="btn btn-outline-secondary px-4 py-2" style="border-radius: 10px;">
+                <i class="fas fa-arrow-left me-2"></i>
+                Volver
+            </a>
         </div>
     </div>
 </div>
 @stop
 
 @section('content')
-<div class="card card-outline card-success shadow-lg">
-    <div class="card-body p-4">
-        <form action="{{ route('aprendices.store') }}" method="POST">
-            @csrf
 
-            <div class="card shadow-sm border-0 mb-4">
-                <div class="card-header bg-success text-white">
-                    <i class="fas fa-graduation-cap me-2"></i>
-                    Información Académica
-                </div>
-                <div class="card-body">
+@if ($errors->any())
+<div class="alert alert-danger rounded-3 border-0 shadow-sm mb-4">
+    <h5 class="mb-2"><i class="fas fa-ban me-2"></i>Se encontraron errores en el formulario</h5>
+    <ul class="mb-0 ps-3">
+        @foreach($errors->all() as $error)
+            <li>{{ $error }}</li>
+        @endforeach
+    </ul>
+</div>
+@endif
+
+<form action="{{ route('aprendices.store') }}" method="POST">
+    @csrf
+
+    <div class="card card-outline card-success shadow-lg border-0 mb-4">
+        
+        <!-- Tabs Header -->
+        <ul class="nav nav-tabs nav-tabs-custom" id="aprendizTab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="academica-tab" data-toggle="tab" data-target="#academica" type="button" role="tab">
+                    <i class="fas fa-graduation-cap me-2"></i>Información Académica
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="personal-tab" data-toggle="tab" data-target="#personal" type="button" role="tab">
+                    <i class="fas fa-id-card me-2"></i>Información Personal
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="empresa-tab" data-toggle="tab" data-target="#empresa" type="button" role="tab">
+                    <i class="fas fa-building me-2"></i>Información Empresa
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="productiva-tab" data-toggle="tab" data-target="#productiva" type="button" role="tab">
+                    <i class="fas fa-briefcase me-2"></i>Etapa Productiva
+                </button>
+            </li>
+        </ul>
+
+        <div class="card-body p-4">
+            <div class="tab-content" id="aprendizTabContent">
+                
+                <!-- TAB 1: INFORMACIÓN ACADÉMICA -->
+                <div class="tab-pane fade show active" id="academica" role="tabpanel">
                     <div class="row">
                         <div class="col-md-4 mb-3">
-                            <label class="form-label">
-                                <i class="fas fa-id-card text-success me-2"></i>
-                                Ficha
-                            </label>
-                            <select name="ficha_id" class="form-select @error('ficha_id') is-invalid @enderror">
-                                <option value="">Seleccione</option>
+                            <label>Ficha <span class="text-danger">*</span></label>
+                            <select name="ficha_id" class="form-select select2 @error('ficha_id') is-invalid @enderror">
+                                <option value="">Buscar por número o programa...</option>
                                 @foreach($fichas as $ficha)
-                                    <option value="{{ $ficha->id }}">
-                                        {{ $ficha->numero_ficha }} - {{ $ficha->programa->nombre_programa }}
+                                    <option value="{{ $ficha->id }}" 
+                                            data-search="{{ $ficha->numero_ficha }} {{ $ficha->programa->nombre_programa ?? '' }}"
+                                            {{ old('ficha_id') == $ficha->id ? 'selected' : '' }}>
+                                        {{ $ficha->numero_ficha }} - {{ $ficha->programa->nombre_programa ?? 'Sin programa' }}
                                     </option>
                                 @endforeach
                             </select>
-                            @error('ficha_id')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
                         </div>
 
                         <div class="col-md-4 mb-3">
-                            <label class="form-label">
-                                <i class="fas fa-toggle-on text-success me-2"></i>
-                                Estado
-                            </label>
-                            <select name="estado_id" class="form-select">
+                            <label>Estado</label>
+                            <select name="estado_id" class="form-select select2">
+                                <option value="">Seleccione un estado</option>
                                 @foreach($estados as $estado)
-                                    <option value="{{ $estado->id }}">{{ $estado->nombre_estado }}</option>
+                                    <option value="{{ $estado->id }}" {{ old('estado_id') == $estado->id ? 'selected' : '' }}>
+                                        {{ $estado->nombre_estado }}
+                                    </option>
                                 @endforeach
                             </select>
                         </div>
 
                         <div class="col-md-4 mb-3">
-                            <label class="form-label">
-                                <i class="fas fa-user-graduate text-success me-2"></i>
-                                Vínculo Formativo
-                            </label>
-                            <select name="vinculo_id" class="form-select">
+                            <label>Vínculo Formativo</label>
+                            <select name="vinculo_id" class="form-select select2">
+                                <option value="">Seleccione un vínculo</option>
                                 @foreach($vinculos as $vinculo)
-                                    <option value="{{ $vinculo->id }}">{{ $vinculo->nombre_vinculo }}</option>
+                                    <option value="{{ $vinculo->id }}" {{ old('vinculo_id') == $vinculo->id ? 'selected' : '' }}>
+                                        {{ $vinculo->nombre_vinculo }}
+                                    </option>
                                 @endforeach
                             </select>
                         </div>
                     </div>
-                </div>
-            </div>
 
-            <div class="card shadow-sm border-0 mb-4">
-                <div class="card-header bg-primary text-white">
-                    <i class="fas fa-user me-2"></i>
-                    Información Personal
+                    <div class="d-flex justify-content-end mt-3">
+                        <button type="button" class="btn btn-outline-success px-4 btn-next" data-next="#personal-tab">
+                            Siguiente <i class="fas fa-arrow-right ms-2"></i>
+                        </button>
+                    </div>
                 </div>
-                <div class="card-body">
+
+                <!-- TAB 2: INFORMACIÓN PERSONAL -->
+                <div class="tab-pane fade" id="personal" role="tabpanel">
                     <div class="row">
                         <div class="col-md-3 mb-3">
-                            <label class="form-label">
-                                <i class="fas fa-address-card text-primary me-2"></i>
-                                Tipo Documento
-                            </label>
-                            <select name="tipo_documento" class="form-select">
-                                <option value="CC">CC</option>
-                                <option value="TI">TI</option>
-                                <option value="CE">CE</option>
+                            <label>Tipo Documento <span class="text-danger">*</span></label>
+                            <select name="tipo_documento" class="form-select select2">
+                                <option value="CC" {{ old('tipo_documento') == 'CC' ? 'selected' : '' }}>CC - Cédula de Ciudadanía</option>
+                                <option value="TI" {{ old('tipo_documento') == 'TI' ? 'selected' : '' }}>TI - Tarjeta de Identidad</option>
+                                <option value="CE" {{ old('tipo_documento') == 'CE' ? 'selected' : '' }}>CE - Cédula de Extranjería</option>
+                                <option value="PEP" {{ old('tipo_documento') == 'PEP' ? 'selected' : '' }}>PEP</option>
                             </select>
                         </div>
 
                         <div class="col-md-3 mb-3">
-                            <label class="form-label">
-                                <i class="fas fa-id-card text-primary me-2"></i>
-                                Documento
-                            </label>
-                            <input type="text" name="documento_identidad" class="form-control">
+                            <label>Documento <span class="text-danger">*</span></label>
+                            <input type="text" name="documento_identidad" value="{{ old('documento_identidad') }}" class="form-control" placeholder="Ej: 1098765432">
                         </div>
 
                         <div class="col-md-3 mb-3">
-                            <label class="form-label">
-                                <i class="fas fa-user text-primary me-2"></i>
-                                Nombres
-                            </label>
-                            <input type="text" name="nombres" class="form-control">
+                            <label>Nombres <span class="text-danger">*</span></label>
+                            <input type="text" name="nombres" value="{{ old('nombres') }}" class="form-control" placeholder="Nombres completos">
                         </div>
 
                         <div class="col-md-3 mb-3">
-                            <label class="form-label">
-                                <i class="fas fa-user text-primary me-2"></i>
-                                Apellidos
-                            </label>
-                            <input type="text" name="apellidos" class="form-control">
+                            <label>Apellidos <span class="text-danger">*</span></label>
+                            <input type="text" name="apellidos" value="{{ old('apellidos') }}" class="form-control" placeholder="Apellidos completos">
                         </div>
                     </div>
 
                     <div class="row">
                         <div class="col-md-6 mb-3">
-                            <label class="form-label">
-                                <i class="fas fa-envelope text-primary me-2"></i>
-                                Correo Electrónico
-                            </label>
-                            <input type="email" name="correo_electronico" class="form-control">
+                            <label>Correo Electrónico <span class="text-danger">*</span></label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light border-end-0" style="border-radius: 12px 0 0 12px;"><i class="far fa-envelope text-muted"></i></span>
+                                <input type="email" name="correo_electronico" value="{{ old('correo_electronico') }}" class="form-control border-start-0" placeholder="aprendiz@soy.sena.edu.co">
+                            </div>
                         </div>
 
                         <div class="col-md-6 mb-3">
-                            <label class="form-label">
-                                <i class="fas fa-phone text-primary me-2"></i>
-                                Teléfono
-                            </label>
-                            <input type="text" name="telefono" class="form-control">
+                            <label>Teléfono</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light border-end-0" style="border-radius: 12px 0 0 12px;"><i class="fas fa-phone-alt text-muted"></i></span>
+                                <input type="text" name="telefono" value="{{ old('telefono') }}" class="form-control border-start-0" placeholder="Ej: 3001234567">
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
 
-            <div class="card shadow-sm border-0 mb-4">
-                <div class="card-header bg-success text-white">
-                    <i class="fas fa-building me-2"></i>
-                    Información Empresa
+                    <div class="d-flex justify-content-between mt-3">
+                        <button type="button" class="btn btn-outline-secondary px-4 btn-prev" data-prev="#academica-tab">
+                            <i class="fas fa-arrow-left me-2"></i> Anterior
+                        </button>
+                        <button type="button" class="btn btn-outline-success px-4 btn-next" data-next="#empresa-tab">
+                            Siguiente <i class="fas fa-arrow-right ms-2"></i>
+                        </button>
+                    </div>
                 </div>
-                <div class="card-body">
+
+                <!-- TAB 3: INFORMACIÓN EMPRESA -->
+                <div class="tab-pane fade" id="empresa" role="tabpanel">
                     <div class="row">
                         <div class="col-md-6 mb-3">
-                            <label class="form-label">
-                                <i class="fas fa-building text-success me-2"></i>
-                                Empresa
-                            </label>
-                            <input type="text" name="empresa" class="form-control">
+                            <label>Empresa</label>
+                            <input type="text" name="empresa" value="{{ old('empresa') }}" class="form-control" placeholder="Nombre de la empresa patrocinadora">
                         </div>
 
                         <div class="col-md-6 mb-3">
-                            <label class="form-label">
-                                <i class="fas fa-user-tie text-success me-2"></i>
-                                Jefe Inmediato
-                            </label>
-                            <input type="text" name="jefe_inmediato" class="form-control">
+                            <label>Jefe Inmediato</label>
+                            <input type="text" name="jefe_inmediato" value="{{ old('jefe_inmediato') }}" class="form-control" placeholder="Nombre del responsable">
                         </div>
                     </div>
 
                     <div class="row">
                         <div class="col-md-6 mb-3">
-                            <label class="form-label">
-                                <i class="fas fa-envelope text-success me-2"></i>
-                                Correo Empresa
-                            </label>
-                            <input type="email" name="correo_empresa" class="form-control">
+                            <label>Correo Empresa</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light border-end-0" style="border-radius: 12px 0 0 12px;"><i class="far fa-envelope text-muted"></i></span>
+                                <input type="email" name="correo_empresa" value="{{ old('correo_empresa') }}" class="form-control border-start-0" placeholder="contacto@empresa.com">
+                            </div>
                         </div>
 
                         <div class="col-md-6 mb-3">
-                            <label class="form-label">
-                                <i class="fas fa-phone text-success me-2"></i>
-                                Teléfono Empresa
-                            </label>
-                            <input type="text" name="telefono_empresa" class="form-control">
+                            <label>Teléfono Empresa</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light border-end-0" style="border-radius: 12px 0 0 12px;"><i class="fas fa-phone-alt text-muted"></i></span>
+                                <input type="text" name="telefono_empresa" value="{{ old('telefono_empresa') }}" class="form-control border-start-0" placeholder="Ej: 6076543210">
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
 
-            <div class="card shadow-sm border-0 mb-4">
-                <div class="card-header bg-success text-white">
-                    <i class="fas fa-briefcase me-2"></i>
-                    Etapa Productiva
+                    <div class="d-flex justify-content-between mt-3">
+                        <button type="button" class="btn btn-outline-secondary px-4 btn-prev" data-prev="#personal-tab">
+                            <i class="fas fa-arrow-left me-2"></i> Anterior
+                        </button>
+                        <button type="button" class="btn btn-outline-success px-4 btn-next" data-next="#productiva-tab">
+                            Siguiente <i class="fas fa-arrow-right ms-2"></i>
+                        </button>
+                    </div>
                 </div>
-                <div class="card-body">
+
+                <!-- TAB 4: ETAPA PRODUCTIVA -->
+                <div class="tab-pane fade" id="productiva" role="tabpanel">
                     <div class="row">
                         <div class="col-md-6 mb-3">
-                            <label class="form-label">
-                                <i class="fas fa-calendar-alt text-success me-2"></i>
-                                Fecha Inicio
-                            </label>
-                            <input type="date" name="fecha_inicio_practica" class="form-control">
+                            <label>Fecha Inicio</label>
+                            <input type="date" name="fecha_inicio_practica" value="{{ old('fecha_inicio_practica') }}" class="form-control">
                         </div>
 
                         <div class="col-md-6 mb-3">
-                            <label class="form-label">
-                                <i class="fas fa-calendar-alt text-success me-2"></i>
-                                Fecha Fin
-                            </label>
-                            <input type="date" name="fecha_fin_practica" class="form-control">
+                            <label>Fecha Fin</label>
+                            <input type="date" name="fecha_fin_practica" value="{{ old('fecha_fin_practica') }}" class="form-control">
                         </div>
                     </div>
 
                     <div class="mb-3">
-                        <label class="form-label">
-                            <i class="fas fa-file-alt text-success me-2"></i>
-                            Detalles Contrato
-                        </label>
-                        <textarea name="detalles_contrato" rows="4" class="form-control"></textarea>
+                        <label>Detalles Contrato</label>
+                        <textarea name="detalles_contrato" rows="4" class="form-control" placeholder="Observaciones o términos del contrato...">{{ old('detalles_contrato') }}</textarea>
+                    </div>
+
+                    <div class="d-flex justify-content-between mt-3">
+                        <button type="button" class="btn btn-outline-secondary px-4 btn-prev" data-prev="#empresa-tab">
+                            <i class="fas fa-arrow-left me-2"></i> Anterior
+                        </button>
                     </div>
                 </div>
-            </div>
 
-            <div class="d-flex flex-wrap gap-2 mt-4">
-                <button class="btn btn-success btn-lg px-4">
-                    <i class="fas fa-save me-2"></i>
-                    Guardar Aprendiz
-                </button>
-                <a href="{{ route('aprendices.index') }}" class="btn btn-outline-secondary btn-lg px-4">
-                    <i class="fas fa-times me-2"></i>
-                    Cancelar
-                </a>
             </div>
-        </form>
+        </div>
     </div>
-</div>
+
+    <!-- ACCIONES DEL FORMULARIO -->
+    <div class="d-flex align-items-center justify-content-end gap-2 mb-5">
+        <a href="{{ route('aprendices.index') }}" class="btn btn-light px-4 py-2 font-weight-bold text-secondary me-2" style="border-radius: 12px;">
+            Cancelar
+        </a>
+        <button type="submit" class="btn btn-success px-5 py-2 font-weight-bold">
+            <i class="fas fa-save me-2"></i>
+            Guardar Aprendiz
+        </button>
+    </div>
+</form>
 @stop
 
 @section('js')
-<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script>
-$(function () {
-    $('select').not('[multiple]').select2({
-        width: '100%'
+$(document).ready(function () {
+    // Inicialización de Select2 con matcher personalizado
+    $('.select2').select2({
+        width: '100%',
+        placeholder: "Seleccione una opción...",
+        allowClear: true,
+        matcher: function(params, data) {
+            if ($.trim(params.term) === '') {
+                return data;
+            }
+            if (typeof data.text === 'undefined') {
+                return null;
+            }
+            var searchTerm = params.term.toLowerCase();
+            var optionText = data.text.toLowerCase();
+            var customSearch = $(data.element).data('search');
+
+            if (optionText.indexOf(searchTerm) > -1 || (customSearch && customSearch.toLowerCase().indexOf(searchTerm) > -1)) {
+                return data;
+            }
+            return null;
+        }
+    });
+
+    // Navegación fluida entre pestañas
+    $('.btn-next').on('click', function () {
+        var targetTab = $(this).data('next');
+        $(targetTab).tab('show');
+    });
+
+    $('.btn-prev').on('click', function () {
+        var targetTab = $(this).data('prev');
+        $(targetTab).tab('show');
     });
 });
 </script>

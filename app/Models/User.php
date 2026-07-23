@@ -68,7 +68,7 @@ class User extends Authenticatable
 
     public function adminlte_desc()
     {
-        return 'Usuario del sistema';
+        return $this->nombre_completo;
     }
 
     public function adminlte_profile_url()
@@ -83,17 +83,20 @@ class User extends Authenticatable
         );
     }
 
-    public function adminlte_image()
-    {
-        return 'https://ui-avatars.com/api/?name=' .
-            urlencode($this->nombre_completo);
-    }
-
     public function instructor()
     {
         return $this->hasOne(
             Instructor::class
         );
+    }
+
+    public function adminlte_image()
+    {
+        // Puedes devolver una URL a un icono de avatar estándar o SVG
+        return 'https://ui-avatars.com/api/?name=' .
+            urlencode($this->nombre_completo); 
+        // O si tienes una imagen local en public/img/user.png:
+        // return asset('img/user.png');
     }
 
     
